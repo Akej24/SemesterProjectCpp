@@ -1,6 +1,3 @@
-#ifndef EMPLOYEE_STRUCTS_H
-#define EMPLOYEE_STRUCTS_H
-
 #include <string>
 
 using namespace std;
@@ -38,6 +35,16 @@ struct Employee {
     Project **projects;
 };
 
-string capitalizeFirstLetter(const string &s);
+void create(Employee *&employee);
+void initialize(Employee *&employee, int id, string name, int age, string firstName, string lastName, int workedHours, double salaryPerHour, Address address, Department department, Project **projects);
+void deleteEmployee(Employee *&employee);
+void add(Project *project, Employee *employee);
+void show(Employee *employee);
 
-#endif /* EMPLOYEE_STRUCTS_H */
+double calculateSalary(Employee *employee);
+int countProjects(Employee *employee);
+
+void showHardcodedEmployees();
+
+string capitalizeFirstLetter(const string &s);
+void presentEmployee(const Employee &employee);
