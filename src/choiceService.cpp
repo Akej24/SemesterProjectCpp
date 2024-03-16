@@ -4,6 +4,8 @@
 #include <string_view>
 #include <vector>
 
+using namespace std;
+
 bool checkValidEmployeeIndex(int employeeIndex, const vector<Employee *> &employees) {
     if (employeeIndex >= 0 && employeeIndex < employees.size())
         return true;
@@ -38,18 +40,22 @@ void createEmployee(vector<Employee *> &employees, int id) {
     cin >> workedHours;
     cout << "Podaj stawke godzinowa: ";
     cin >> salaryPerHour;
+
     cout << "Podaj adres:" << endl;
-    cout << "Ulica: ";
+    cout << "a) Ulica: ";
     cin >> street_address;
-    cout << "Miasto: ";
+    cout << "b) Miasto: ";
     cin >> city;
-    cout << "Kod pocztowy: ";
+    cout << "c) Kod pocztowy: ";
     cin >> postal_code;
-    cout << "Podaj nazwe departamentu: ";
+    
+    cout << "Podaj nazwe oddzialu: ";
     cin >> departmentName;
-    cout << "Podaj nazwe projektu: ";
+
+    cout << "Podaj projekt: " << endl;
+    cout << "a) Nazwa ";
     cin >> projectName;
-    cout << "Podaj opis projektu: ";
+    cout << "b) Opis ";
     cin >> projectDescription;
 
     Project *project1 = new Project{projectName, 1, projectDescription};
@@ -142,8 +148,8 @@ void generateEmployeePresentation(const vector<Employee *> &employees) {
     presentEmployee(*employee);
 }
 
-void saveEmployeeProjectsSentenceToRecords(const vector<Employee *> &employees, string_view *Rekordy) {
-    if (!checkAnyEmployeeExists)
+void saveEmployeeProjectsSentenceToRecords(const vector<Employee *> &employees, string *records) {
+    if (!checkAnyEmployeeExists(employees))
         return;
 
     int employeeIndex;
@@ -154,7 +160,43 @@ void saveEmployeeProjectsSentenceToRecords(const vector<Employee *> &employees, 
 
     Employee *employee = employees[employeeIndex];
     string resultSentence = "Employee " + employee->firstName + " " + capitalizeFirstLetter(employee->lastName) + " has " + to_string(countProjects(employee)) + " projects.";
-    Rekordy[employeeIndex] = string_view(resultSentence);
+    records[employeeIndex] = resultSentence;
 
-    cout << "Pomyślnie zapisano, akutalne rekordy: " << endl;
+    cout << "Pomyslnie zapisano, aktualne rekordy: " << endl;
+
+    for (int i = 0; i < employees.size(); i++)
+        if (!records[i].empty())
+            cout << "Rekord " << i << ": " << records[i] << endl;
+}
+
+string extractFirstName(const string &sentence) {
+    size_t start = sentence.find("Employee ") + 9;
+    size_t end = sentence.find(" ", start);
+    return sentence.substr(start, end - start);
+}
+
+string extractLastName(const string &sentence) {
+    size_t start = sentence.find(" ") + 1;
+    size_t end = sentence.find(" has ", start);
+    return sentence.substr(start, end - start);
+}
+
+int extractProjectsAmount(const string &sentence) {
+    size_t start = sentence.find(" has ") + 5;
+    size_t end = sentence.find(" projects", start);
+    return stoi(sentence.substr(start, end - start));
+}
+
+void extractAttributesFromRecords(const string *records, int size) {
+    for (int i = 0; i < size; ++i) {
+        if (!records[i].empty()) {
+            string firstName = extractFirstName(records[i]);
+            string lastName = extractLastName(records[i]);
+            int projectsAmount = extractProjectsAmount(records[i]);
+            cout << "Wyodrebnione dane: " << endl;
+            cout << "- firstName: " << firstName << endl;
+            cout << "- lastName: " << lastName << endl;
+            cout << "- projectsAmount: " << projectsAmount << endl;
+        }
+    }
 }

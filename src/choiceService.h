@@ -12,4 +12,5 @@ void calculateEmployeeSalary(const vector<Employee *> &employees);
 void showEmployeeProjectsAmount(const vector<Employee *> &employees);
 
 void generateEmployeePresentation(const vector<Employee *> &employees);
-void saveEmployeeProjectsSentenceToRecords(const vector<Employee *> &employees, string_view *Rekordy);
+void saveEmployeeProjectsSentenceToRecords(const vector<Employee *> &employees, string* records);
+void extractAttributesFromRecords(const string *records, int size);

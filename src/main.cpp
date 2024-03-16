@@ -4,6 +4,8 @@
 #include <string_view>
 #include <vector>
 
+using namespace std;
+
 int main() {
     bool running = true;
     random_device rd;
@@ -12,11 +14,11 @@ int main() {
     uniform_int_distribution<int> recordsSizeDistribution(50, 100);
 
     vector<Employee *> employees;
-    const int RECORDS_SIZE = recordsSizeDistribution(eng);
-    string_view Rekordy[100];
+    const int recordsSize = recordsSizeDistribution(eng);
+    string *records = new string[recordsSize];
 
     while (running) {
-        cout << "Menu:" << endl;
+        cout << "--------------------------------------------------------" << endl;
         cout << "1. Stworz pracownika" << endl;
         cout << "2. Dodaj projekt pracownikowi" << endl;
         cout << "3. Pokaz informacje o pracowniku" << endl;
@@ -24,9 +26,10 @@ int main() {
         cout << "5. Pokaz ilosc projektow pracownika" << endl;
         cout << "6. Zaprezentuj pracownika" << endl;
         cout << "7. Pokaz zahardcodowanych pracownikow" << endl;
-        cout << "8. Wygeneruj zdanie o pracownikow i zapisz do rekordów" << endl;
-        cout << "8. Wyjscie" << endl;
-        cout << "Wybierz opcje: ";
+        cout << "8. Wygeneruj zdanie o pracownikow i zapisz do rekordow" << endl;
+        cout << "9. Wyodredbnij (sparsuj) dane z rekordow" << endl;
+        cout << "10. Wyjscie" << endl;
+        cout << "--------------------------------------------------------" << endl;
 
         int choice;
         cin >> choice;
@@ -54,11 +57,13 @@ int main() {
             showHardcodedEmployees();
             break;
         case 8:
-            saveEmployeeProjectsSentenceToRecords(employees, Rekordy);
+            saveEmployeeProjectsSentenceToRecords(employees, records);
             break;
         case 9:
-            running = false;
+            extractAttributesFromRecords(records, recordsSize);
             break;
+        case 10:
+
         default:
             cout << "Niepoprawny wybor!" << endl;
             break;
@@ -67,6 +72,8 @@ int main() {
 
     for (Employee *employee : employees)
         deleteEmployee(employee);
+
+    delete[] records;
 
     return 0;
 }

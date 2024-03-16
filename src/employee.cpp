@@ -31,32 +31,35 @@ void initialize(Employee *&employee, int id, string name, int age, string firstN
 
 void add(Project *project, Employee *employee) {
     if (employee->projects == nullptr) {
-        employee->projects = new Project *[1];
+        employee->projects = new Project *[2];
         employee->projects[0] = project;
+        employee->projects[1] = nullptr;
     } else {
         int newSize = 0;
         while (employee->projects[newSize] != nullptr)
             newSize++;
         newSize++;
-        Project **newProjects = new Project *[newSize];
+        Project **newProjects = new Project *[newSize + 1];
         for (int i = 0; i < newSize - 1; ++i)
             newProjects[i] = employee->projects[i];
         newProjects[newSize - 1] = project;
+        newProjects[newSize] = nullptr;
         delete[] employee->projects;
         employee->projects = newProjects;
     }
 }
 
+
 void show(Employee *employee) {
     cout << "ID: " << employee->id << endl;
-    cout << "Name: " << employee->name << endl;
-    cout << "Age: " << employee->age << endl;
-    cout << "First Name: " << employee->firstName << endl;
-    cout << "Last Name: " << employee->lastName << endl;
-    cout << "Worked Hours: " << employee->workedHours << endl;
-    cout << "Salary per hour: " << employee->salaryPerHour << endl;
-    cout << "Address: " << employee->address.street_address << ", " << employee->address.city << ", " << employee->address.postal_code << endl;
-    cout << "Department: " << employee->department.name << " (ID: " << employee->department.department_id << ")" << endl;
+    cout << "Imie: " << employee->name << endl;
+    cout << "Wiek: " << employee->age << endl;
+    cout << "Imie: " << employee->firstName << endl;
+    cout << "Nazwisko: " << employee->lastName << endl;
+    cout << "Przepracowane godziny: " << employee->workedHours << endl;
+    cout << "Pensja na godzine: " << employee->salaryPerHour << endl;
+    cout << "Adres: " << employee->address.street_address << ", " << employee->address.city << ", " << employee->address.postal_code << endl;
+    cout << "Oddzial: " << employee->department.name << " (ID: " << employee->department.department_id << ")" << endl;
 }
 
 double calculateSalary(Employee *employee) {
