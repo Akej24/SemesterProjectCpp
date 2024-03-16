@@ -1,62 +1,18 @@
+#include "employee.h"
 #include <iostream>
 #include <random>
 #include <string>
 
 using namespace std;
 
-constexpr std::string_view firstNames[] = {"John", "Alice", "Michael", "Emma", "William", "Olivia", "James", "Sophia", "Benjamin", "Isabella"};
-constexpr std::string_view lastNames[] = {"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"};
-
-struct Address {
-    string street_address;
-    string city;
-    string postal_code;
-};
-
-struct Department {
-    string name;
-    int department_id;
-};
-
-struct Project {
-    string name;
-    int project_id;
-    string description;
-};
-
-struct Employee {
-    int id;
-    string name;
-    int age;
-    string firstName;
-    string lastName;
-    int workedHours;
-    double salaryPerHour;
-    Address address;
-    Department department;
-    Project **projects;
-};
-
-string capitalizeFirstLetter(const string &s) {
-    if (s.empty())
-        return "";
-
-    string result = s;
-    result[0] = toupper(result[0]);
-    return result;
-}
-
 void showConstantsDataFromArrays() {
     cout << "Imiona:" << endl;
-    for (std::string_view firstName : firstNames) {
+    for (string_view firstName : firstNames)
         cout << firstName << endl;
-    }
-
     cout << endl
          << "Nazwiska:" << endl;
-    for (std::string_view lastName : lastNames) {
+    for (string_view lastName : lastNames)
         cout << lastName << endl;
-    }
 }
 
 void displayEmployeeInfo(const Employee &employee) {
@@ -95,14 +51,12 @@ void add(Project *project, Employee *employee) {
         employee->projects[0] = project;
     } else {
         int newSize = 0;
-        while (employee->projects[newSize] != nullptr) {
+        while (employee->projects[newSize] != nullptr)
             newSize++;
-        }
         newSize++;
         Project **newProjects = new Project *[newSize];
-        for (int i = 0; i < newSize - 1; ++i) {
+        for (int i = 0; i < newSize - 1; ++i)
             newProjects[i] = employee->projects[i];
-        }
         newProjects[newSize - 1] = project;
         delete[] employee->projects;
         employee->projects = newProjects;
@@ -138,9 +92,9 @@ int main() {
     Employee *employee = nullptr;
     bool running = true;
 
-    std::random_device rd;
-    std::default_random_engine eng(rd());
-    std::uniform_int_distribution<int> idDistribution(1000, 9999);
+    random_device rd;
+    default_random_engine eng(rd());
+    uniform_int_distribution<int> idDistribution(1000, 9999);
 
     showConstantsDataFromArrays();
     while (running) {
