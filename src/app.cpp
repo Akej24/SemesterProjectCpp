@@ -1,7 +1,8 @@
 #include "employee.h"
 #include <iostream>
 #include <random>
-#include <string>
+#include <string_view>
+#include <vector>
 
 using namespace std;
 
@@ -89,14 +90,17 @@ int countProjects(Employee *employee) {
 }
 
 int main() {
-    Employee *employee = nullptr;
     bool running = true;
-
     random_device rd;
     default_random_engine eng(rd());
     uniform_int_distribution<int> idDistribution(1000, 9999);
+    uniform_int_distribution<int> recordsSizeDistribution(50, 100);
 
     showConstantsDataFromArrays();
+    vector<Employee*> employees;
+    const int RECORDS_SIZE = recordsSizeDistribution(eng);
+    string_view Rekordy[100];
+
     while (running) {
         cout << "Menu:" << endl;
         cout << "1. Stworz pracownika" << endl;
@@ -112,110 +116,168 @@ int main() {
         cin >> choice;
 
         switch (choice) {
-        case 1: {
-            int age, workedHours;
-            double salaryPerHour;
-            string name, firstName, lastName, street_address, city, postal_code, departmentName, projectName, projectDescription;
+            case 1: {
+                Employee *employee = nullptr;
+                int age, workedHours;
+                double salaryPerHour;
+                string name, firstName, lastName, street_address, city, postal_code, departmentName, projectName, projectDescription;
 
-            int id = idDistribution(eng);
+                int id = idDistribution(eng);
 
-            cout << "Podaj imie: ";
-            cin >> firstName;
-            cout << "Podaj nazwisko: ";
-            cin >> lastName;
-            name = firstName + " " + lastName;
-            cout << "Podaj wiek: ";
-            cin >> age;
-            cout << "Podaj liczbe przepracowanych godzin: ";
-            cin >> workedHours;
-            cout << "Podaj stawke godzinowa: ";
-            cin >> salaryPerHour;
-            cout << "Podaj adres:" << endl;
-            cout << "Ulica: ";
-            cin >> street_address;
-            cout << "Miasto: ";
-            cin >> city;
-            cout << "Kod pocztowy: ";
-            cin >> postal_code;
-            cout << "Podaj nazwe departamentu: ";
-            cin >> departmentName;
-            cout << "Podaj nazwe projektu: ";
-            cin >> projectName;
-            cout << "Podaj opis projektu: ";
-            cin >> projectDescription;
-
-            Project *project1 = new Project{projectName, 1, projectDescription};
-            Project **projects = new Project *[2];
-            projects[0] = project1;
-            projects[1] = nullptr;
-
-            Address address{street_address, city, postal_code};
-            Department department{departmentName, 1};
-
-            initialize(employee, id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, projects);
-            break;
-        }
-        case 2: {
-            if (employee == nullptr)
-                cout << "Najpierw stworz pracownika!" << endl;
-            else {
-                string projectName, projectDescription;
+                cout << "Podaj imie: ";
+                cin >> firstName;
+                cout << "Podaj nazwisko: ";
+                cin >> lastName;
+                name = firstName + " " + lastName;
+                cout << "Podaj wiek: ";
+                cin >> age;
+                cout << "Podaj liczbe przepracowanych godzin: ";
+                cin >> workedHours;
+                cout << "Podaj stawke godzinowa: ";
+                cin >> salaryPerHour;
+                cout << "Podaj adres:" << endl;
+                cout << "Ulica: ";
+                cin >> street_address;
+                cout << "Miasto: ";
+                cin >> city;
+                cout << "Kod pocztowy: ";
+                cin >> postal_code;
+                cout << "Podaj nazwe departamentu: ";
+                cin >> departmentName;
                 cout << "Podaj nazwe projektu: ";
                 cin >> projectName;
                 cout << "Podaj opis projektu: ";
                 cin >> projectDescription;
 
-                Project *newProject = new Project{projectName, countProjects(employee) + 1, projectDescription};
-                add(newProject, employee);
+                Project *project1 = new Project{projectName, 1, projectDescription};
+                Project **projects = new Project *[2];
+                projects[0] = project1;
+                projects[1] = nullptr;
+
+                Address address{street_address, city, postal_code};
+                Department department{departmentName, 1};
+
+                initialize(employee, id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, projects);
+                employees.push_back(employee);
+                break;
             }
-            break;
-        }
-        case 3: {
-            if (employee == nullptr)
-                cout << "Brak pracownika do wyswietlenia!" << endl;
-            else
-                show(employee);
-            break;
-        }
-        case 4: {
-            if (employee == nullptr)
-                cout << "Brak pracownika do obliczenia zarobkow!" << endl;
-            else {
-                double salary = calculateSalary(employee);
-                cout << "Zarobki pracownika: " << salary << endl;
+            case 2: {
+                if (employees.empty())
+                    cout << "Najpierw stworz pracownika!" << endl;
+                else {
+                    int employeeIndex;
+                    cout << "Wybierz indeks pracownika: ";
+                    cin >> employeeIndex;
+
+                    if (employeeIndex < 0 || employeeIndex >= employees.size()) {
+                        cout << "Niepoprawny indeks pracownika!" << endl;
+                        break;
+                    }
+
+                    Employee *employee = employees[employeeIndex];
+                    string projectName, projectDescription;
+                    cout << "Podaj nazwe projektu: ";
+                    cin >> projectName;
+                    cout << "Podaj opis projektu: ";
+                    cin >> projectDescription;
+
+                    Project *newProject = new Project{projectName, countProjects(employee) + 1, projectDescription};
+                    add(newProject, employee);
+                }
+                break;
             }
-            break;
-        }
-        case 5: {
-            if (employee == nullptr)
-                cout << "Brak pracownika do wyswietlenia ilosci projektow!" << endl;
-            else {
-                int projectsCount = countProjects(employee);
-                cout << "Ilosc projektow pracownika: " << projectsCount << endl;
+            case 3: {
+                if (employees.empty())
+                    cout << "Brak pracownikow do wyswietlenia!" << endl;
+                else {
+                    int employeeIndex;
+                    cout << "Wybierz indeks pracownika: ";
+                    cin >> employeeIndex;
+
+                    if (employeeIndex < 0 || employeeIndex >= employees.size()) {
+                        cout << "Niepoprawny indeks pracownika!" << endl;
+                        break;
+                    }
+
+                    Employee *employee = employees[employeeIndex];
+                    show(employee);
+                }
+                break;
             }
-            break;
-        }
-        case 6: {
-            if (employee == nullptr)
-                cout << "Brak pracownika do wyswietlenia!" << endl;
-            else {
-                displayEmployeeInfo(*employee);
-                int projectsCount = countProjects(employee);
-                cout << "Ilosc projektow pracownika: " << projectsCount << endl;
+            case 4: {
+                if (employees.empty())
+                    cout << "Brak pracownikow do obliczenia zarobkow!" << endl;
+                else {
+                    int employeeIndex;
+                    cout << "Wybierz indeks pracownika: ";
+                    cin >> employeeIndex;
+
+                    if (employeeIndex < 0 || employeeIndex >= employees.size()) {
+                        cout << "Niepoprawny indeks pracownika!" << endl;
+                        break;
+                    }
+
+                    Employee *employee = employees[employeeIndex];
+                    double salary = calculateSalary(employee);
+                    cout << "Zarobki pracownika: " << salary << endl;
+                }
+                break;
             }
-            break;
-        }
-        case 7: {
-            running = false;
-            break;
-        }
-        default: {
-            cout << "Niepoprawny wybor!" << endl;
-            break;
-        }
+            case 5: {
+                if (employees.empty())
+                    cout << "Brak pracownikow do wyswietlenia ilosci projektow!" << endl;
+                else {
+                    int employeeIndex;
+                    cout << "Wybierz indeks pracownika: ";
+                    cin >> employeeIndex;
+
+                    if (employeeIndex < 0 || employeeIndex >= employees.size()) {
+                        cout << "Niepoprawny indeks pracownika!" << endl;
+                        break;
+                    }
+
+                    Employee *employee = employees[employeeIndex];
+                    int projectsCount = countProjects(employee);
+                    cout << "Ilosc projektow pracownika: " << projectsCount << endl;
+                }
+                break;
+            }
+            case 6: {
+                if (employees.empty())
+                    cout << "Brak pracownikow do wyswietlenia!" << endl;
+                else {
+                    int employeeIndex;
+                    cout << "Wybierz indeks pracownika: ";
+                    cin >> employeeIndex;
+
+                    if (employeeIndex < 0 || employeeIndex >= employees.size()) {
+                        cout << "Niepoprawny indeks pracownika!" << endl;
+                        break;
+                    }
+
+                    Employee *employee = employees[employeeIndex];
+                    displayEmployeeInfo(*employee);
+                    int projectsCount = countProjects(employee);
+                    cout << "Ilosc projektow pracownika: " << projectsCount << endl;
+                    
+                    string result = "Employee " + employee->firstName + " " + capitalizeFirstLetter(employee->lastName) + " has " + to_string(projectsCount) + " projects.";
+                    Rekordy[employeeIndex] = string_view(result);
+                }
+                break;
+            }
+            case 7: {
+                running = false;
+                break;
+            }
+            default: {
+                cout << "Niepoprawny wybor!" << endl;
+                break;
+            }
         }
     }
-    if (employee != nullptr)
+
+    for (Employee *employee : employees)
         deleteEmployee(employee);
+    
     return 0;
 }
