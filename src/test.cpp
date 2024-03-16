@@ -1,6 +1,6 @@
 #include <iostream>
-#include <string>
 #include <random>
+#include <string>
 
 using namespace std;
 
@@ -42,7 +42,7 @@ string capitalizeFirstLetter(const string &s) {
         return "";
 
     string result = s;
-    result[0] = toupper(result[0]); // Capitalize first letter
+    result[0] = toupper(result[0]);
     return result;
 }
 
@@ -54,8 +54,7 @@ void showConstantsDataFromArrays() {
 
     cout << endl
          << "Nazwiska:" << endl;
-    for (std::string_view lastName : lastNames)
-    {
+    for (std::string_view lastName : lastNames) {
         cout << lastName << endl;
     }
 }
@@ -70,7 +69,8 @@ void create(Employee *&employee) {
 }
 
 void initialize(Employee *&employee, int id, string name, int age, string firstName, string lastName, int workedHours, double salaryPerHour, Address address, Department department, Project **projects) {
-    if (employee == nullptr) create(employee);
+    if (employee == nullptr)
+        create(employee);
 
     employee->id = id;
     employee->name = name;
@@ -93,8 +93,7 @@ void add(Project *project, Employee *employee) {
     if (employee->projects == nullptr) {
         employee->projects = new Project *[1];
         employee->projects[0] = project;
-    }
-    else {
+    } else {
         int newSize = 0;
         while (employee->projects[newSize] != nullptr) {
             newSize++;
@@ -127,9 +126,11 @@ double calculateSalary(Employee *employee) {
 }
 
 int countProjects(Employee *employee) {
-    if (employee->projects == nullptr) return 0;
+    if (employee->projects == nullptr)
+        return 0;
     int projectCount = 0;
-    while (employee->projects[projectCount] != nullptr) projectCount++;
+    while (employee->projects[projectCount] != nullptr)
+        projectCount++;
     return projectCount;
 }
 
@@ -157,100 +158,110 @@ int main() {
         cin >> choice;
 
         switch (choice) {
-            case 1: {
-                int age, workedHours;
-                double salaryPerHour;
-                string name, firstName, lastName, street_address, city, postal_code, departmentName, projectName, projectDescription;
+        case 1: {
+            int age, workedHours;
+            double salaryPerHour;
+            string name, firstName, lastName, street_address, city, postal_code, departmentName, projectName, projectDescription;
 
-                int id = idDistribution(eng);
+            int id = idDistribution(eng);
 
-                cout << "Podaj imie: ";
-                cin >> firstName;
-                cout << "Podaj nazwisko: ";
-                cin >> lastName;
-                name = firstName + " " + lastName;
-                cout << "Podaj wiek: ";
-                cin >> age;
-                cout << "Podaj liczbe przepracowanych godzin: ";
-                cin >> workedHours;
-                cout << "Podaj stawke godzinowa: ";
-                cin >> salaryPerHour;
-                cout << "Podaj adres:" << endl;
-                cout << "Ulica: ";
-                cin >> street_address;
-                cout << "Miasto: ";
-                cin >> city;
-                cout << "Kod pocztowy: ";
-                cin >> postal_code;
-                cout << "Podaj nazwe departamentu: ";
-                cin >> departmentName;
+            cout << "Podaj imie: ";
+            cin >> firstName;
+            cout << "Podaj nazwisko: ";
+            cin >> lastName;
+            name = firstName + " " + lastName;
+            cout << "Podaj wiek: ";
+            cin >> age;
+            cout << "Podaj liczbe przepracowanych godzin: ";
+            cin >> workedHours;
+            cout << "Podaj stawke godzinowa: ";
+            cin >> salaryPerHour;
+            cout << "Podaj adres:" << endl;
+            cout << "Ulica: ";
+            cin >> street_address;
+            cout << "Miasto: ";
+            cin >> city;
+            cout << "Kod pocztowy: ";
+            cin >> postal_code;
+            cout << "Podaj nazwe departamentu: ";
+            cin >> departmentName;
+            cout << "Podaj nazwe projektu: ";
+            cin >> projectName;
+            cout << "Podaj opis projektu: ";
+            cin >> projectDescription;
+
+            Project *project1 = new Project{projectName, 1, projectDescription};
+            Project **projects = new Project *[2];
+            projects[0] = project1;
+            projects[1] = nullptr;
+
+            Address address{street_address, city, postal_code};
+            Department department{departmentName, 1};
+
+            initialize(employee, id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, projects);
+            break;
+        }
+        case 2: {
+            if (employee == nullptr)
+                cout << "Najpierw stworz pracownika!" << endl;
+            else {
+                string projectName, projectDescription;
                 cout << "Podaj nazwe projektu: ";
                 cin >> projectName;
                 cout << "Podaj opis projektu: ";
                 cin >> projectDescription;
 
-                Project *project1 = new Project{projectName, 1, projectDescription};
-                Project **projects = new Project *[2];
-                projects[0] = project1;
-                projects[1] = nullptr;
-
-                Address address{street_address, city, postal_code};
-                Department department{departmentName, 1};
-
-                initialize(employee, id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, projects);
-                break;
+                Project *newProject = new Project{projectName, countProjects(employee) + 1, projectDescription};
+                add(newProject, employee);
             }
-            case 2: {
-                if (employee != nullptr) {
-                    string projectName, projectDescription;
-                    cout << "Podaj nazwe projektu: ";
-                    cin >> projectName;
-                    cout << "Podaj opis projektu: ";
-                    cin >> projectDescription;
-
-                    Project *newProject = new Project{projectName, countProjects(employee) + 1, projectDescription};
-                    add(newProject, employee);
-                } else cout << "Najpierw stworz pracownika!" << endl;
-                break;
+            break;
+        }
+        case 3: {
+            if (employee == nullptr)
+                cout << "Brak pracownika do wyswietlenia!" << endl;
+            else
+                show(employee);
+            break;
+        }
+        case 4: {
+            if (employee == nullptr)
+                cout << "Brak pracownika do obliczenia zarobkow!" << endl;
+            else {
+                double salary = calculateSalary(employee);
+                cout << "Zarobki pracownika: " << salary << endl;
             }
-            case 3: {
-                if (employee != nullptr) {
-                    show(employee);
-                } else cout << "Brak pracownika do wyswietlenia!" << endl;
-                break;
+            break;
+        }
+        case 5: {
+            if (employee == nullptr)
+                cout << "Brak pracownika do wyswietlenia ilosci projektow!" << endl;
+            else {
+                int projectsCount = countProjects(employee);
+                cout << "Ilosc projektow pracownika: " << projectsCount << endl;
             }
-            case 4: {
-                if (employee != nullptr) {
-                    double salary = calculateSalary(employee);
-                    cout << "Zarobki pracownika: " << salary << endl;
-                } else cout << "Brak pracownika do obliczenia zarobkow!" << endl;
-                break;
+            break;
+        }
+        case 6: {
+            if (employee == nullptr)
+                cout << "Brak pracownika do wyswietlenia!" << endl;
+            else {
+                displayEmployeeInfo(*employee);
+                int projectsCount = countProjects(employee);
+                cout << "Ilosc projektow pracownika: " << projectsCount << endl;
             }
-            case 5: {
-                if (employee != nullptr) {
-                    int projectsCount = countProjects(employee);
-                    cout << "Ilosc projektow pracownika: " << projectsCount << endl;
-                } else cout << "Brak pracownika do wyswietlenia ilosci projektow!" << endl;
-                break;
-            }
-            case 6: {
-                if (employee != nullptr) {
-                    displayEmployeeInfo(*employee);
-                    int projectsCount = countProjects(employee);
-                    cout << "Ilosc projektow pracownika: " << projectsCount << endl;
-                } else cout << "Brak pracownika do wyswietlenia!" << endl;
-                break;
-            }
-            case 7: {
-                running = false;
-                break;
-            }
-            default: {
-                cout << "Niepoprawny wybor!" << endl;
-                break;
-            }
+            break;
+        }
+        case 7: {
+            running = false;
+            break;
+        }
+        default: {
+            cout << "Niepoprawny wybor!" << endl;
+            break;
+        }
         }
     }
-    if (employee != nullptr) deleteEmployee(employee);
+    if (employee != nullptr)
+        deleteEmployee(employee);
     return 0;
 }
