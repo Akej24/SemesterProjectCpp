@@ -1,9 +1,5 @@
 #include "../header_files/Employee.hpp"
 
-void create(Employee *&employee) {
-    employee = new Employee;
-}
-
 /*
     Employee *employee: Passing by value. Changes to the pointer (like setting it to nullptr) won't affect the original pointer outside the function, but changes to the
     object pointed to by the pointer (like deleting it) will. Employee *&employee: Passing by reference. Changes to the pointer (like setting it to nullptr) will affect
@@ -15,20 +11,38 @@ void deleteEmployee(Employee *&employee) { // if I use * it will delete only cop
     employee = nullptr;
 }
 
-void initialize(Employee *&employee, int id, string name, int age, string firstName, string lastName, int workedHours, double salaryPerHour, Address address, Department department, Project **projects) {
+void initialize(InitializationDataWithProject data) {
+    Employee *&employee = get<0>(data);
     if (employee == nullptr)
-        create(employee);
+        employee = new Employee;
 
-    employee->id = id;
-    employee->name = name;
-    employee->age = age;
-    employee->firstName = firstName;
-    employee->lastName = lastName;
-    employee->workedHours = workedHours;
-    employee->salaryPerHour = salaryPerHour;
-    employee->address = address;
-    employee->department = department;
-    employee->projects = projects;
+    employee->id = get<1>(data);
+    employee->name = get<2>(data);
+    employee->age = get<3>(data);
+    employee->firstName = get<4>(data);
+    employee->lastName = get<5>(data);
+    employee->workedHours = get<6>(data);
+    employee->salaryPerHour = get<7>(data);
+    employee->address = get<8>(data);
+    employee->department = get<9>(data);
+    employee->projects = get<10>(data);
+}
+
+void initialize(InitializationData data) {
+    Employee *&employee = get<0>(data);
+    if (employee == nullptr)
+        employee = new Employee;
+
+    employee->id = get<1>(data);
+    employee->name = get<2>(data);
+    employee->age = get<3>(data);
+    employee->firstName = get<4>(data);
+    employee->lastName = get<5>(data);
+    employee->workedHours = get<6>(data);
+    employee->salaryPerHour = get<7>(data);
+    employee->address = get<8>(data);
+    employee->department = get<9>(data);
+    employee->projects = nullptr;
 }
 
 void add(Project *project, Employee *employee) {
@@ -78,5 +92,5 @@ int countProjects(Employee *employee) {
 
 void presentEmployee(const Employee &employee) {
     cout << "Employee " << employee.firstName << " " << capitalizeFirstLetter(employee.lastName)
-        << " has " << employee.age << " years old and works in department " << employee.department.name << endl;
+         << " has " << employee.age << " years old and works in department " << employee.department.name << endl;
 }

@@ -9,7 +9,8 @@
 #include "Utlis.hpp"
 #include "Validator.hpp"
 
-void createEmployee(vector<Employee *> &employees, int id);
+void createEmployee(vector<Employee *> &employees, int id, bool withProject);
+void deleteEmployeeFromVector(vector<Employee *> &employees);
 void addProjectToEmployee(const vector<Employee *> &employees);
 void showEmployeeInfo(const vector<Employee *> &employees);
 

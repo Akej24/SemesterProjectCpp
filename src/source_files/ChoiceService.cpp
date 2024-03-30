@@ -1,6 +1,6 @@
 #include "../header_files/ChoiceService.hpp"
 
-void createEmployee(vector<Employee *> &employees, int id) {
+void createEmployee(vector<Employee *> &employees, int id, bool withProject) {
     Employee *employee = nullptr;
     int age, workedHours;
     double salaryPerHour;
@@ -25,26 +25,47 @@ void createEmployee(vector<Employee *> &employees, int id) {
     cin >> city;
     cout << "c) Kod pocztowy: ";
     cin >> postal_code;
-    
+
     cout << "Podaj nazwe oddzialu: ";
     cin >> departmentName;
 
-    cout << "Podaj projekt: " << endl;
-    cout << "a) Nazwa ";
-    cin >> projectName;
-    cout << "b) Opis ";
-    cin >> projectDescription;
-
-    Project *project1 = new Project{projectName, 1, projectDescription};
-    Project **projects = new Project *[2]; // it indicates on array of pointers that each other is refering to specific project: projects -> [*project1->[projectData...],*project2->[projectData...],*project3->[projectData...],...]
-    projects[0] = project1;
-    projects[1] = nullptr;
-
     Address address{street_address, city, postal_code};
-    Department department{departmentName, 1};
+    Department department{departmentName, (int) employees.size()};
 
-    initialize(employee, id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, projects);
-    employees.push_back(employee);
+    if(withProject) {
+        cout << "Podaj projekt: " << endl;
+        cout << "a) Nazwa ";
+        cin >> projectName;
+        cout << "b) Opis ";
+        cin >> projectDescription;
+
+        Project *project1 = new Project{projectName, 1, projectDescription};
+        Project **projects = new Project *[2]; // it indicates on array of pointers that each other is refering to specific project: projects -> [*project1->[projectData...],*project2->[projectData...],*project3->[projectData...],...]
+        projects[0] = project1;
+        projects[1] = nullptr;
+
+        InitializationDataWithProject data(employee, id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, projects);
+        initialize(data);
+        employees.push_back(employee);
+    } else {
+        InitializationData data(employee, id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department);
+        initialize(data);
+        employees.push_back(employee);
+    }
+}
+
+void deleteEmployeeFromVector(vector<Employee *> &employees) {
+    if (!checkAnyEmployeeExists)
+        return;
+
+    int employeeIndex;
+    cout << "Wybierz indeks pracownika: ";
+    cin >> employeeIndex;
+    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
+        return;
+
+    deleteEmployee(employees[employeeIndex]);
+    employees.erase(employees.begin() + employeeIndex);
 }
 
 void addProjectToEmployee(const vector<Employee *> &employees) {

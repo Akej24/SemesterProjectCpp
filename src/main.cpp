@@ -21,51 +21,58 @@ int main() {
     while (running) {
         cout 
             << "--------------------------------------------------------\n"
-            << "1. Stworz pracownika\n"
-            << "2. Dodaj projekt pracownikowi\n"
-            << "3. Pokaz informacje o pracowniku\n"
-            << "4. Oblicz zarobki pracownika\n"
-            << "5. Pokaz ilosc projektow pracownika\n"
-            << "6. Zaprezentuj pracownika\n"
-            << "7. Pokaz zahardcodowanych pracownikow\n"
-            << "8. Wygeneruj zdanie o pracownikow i zapisz do rekordow\n"
-            << "9. Wyodredbnij (sparsuj) dane z rekordow\n"
-            << "10. Wyjscie\n"
+            << "1. Stworz pracownika z projektem\n"
+            << "2. Stworz pracownika bez projektu\n"
+            << "3. Dodaj projekt pracownikowi\n"
+            << "4. Pokaz informacje o pracowniku\n"
+            << "5. Usun parcownika\n"
+            << "6. Oblicz zarobki pracownika\n"
+            << "7. Pokaz ilosc projektow pracownika\n"
+            << "8. Zaprezentuj pracownika\n"
+            << "9. Pokaz zahardcodowanych pracownikow\n"
+            << "10. Wygeneruj zdanie o pracownikow i zapisz do rekordow\n"
+            << "11. Wyodredbnij (sparsuj) dane z rekordow\n"
+            << "12. Wyjscie\n"
             << "--------------------------------------------------------" << endl;
-
 
         int choice;
         cin >> choice;
 
         switch (choice) {
         case 1:
-            createEmployee(employees, idDistribution(eng));
+            createEmployee(employees, idDistribution(eng), true);
             break;
         case 2:
-            addProjectToEmployee(employees);
+            createEmployee(employees, idDistribution(eng), false);
             break;
         case 3:
-            showEmployeeInfo(employees);
+            addProjectToEmployee(employees);
             break;
         case 4:
-            calculateEmployeeSalary(employees);
+            showEmployeeInfo(employees);
             break;
         case 5:
-            showEmployeeProjectsAmount(employees);
+            deleteEmployeeFromVector(employees);
             break;
         case 6:
-            generateEmployeePresentation(employees);
+            calculateEmployeeSalary(employees);
             break;
         case 7:
-            showHardcodedEmployees();
+            showEmployeeProjectsAmount(employees);
             break;
         case 8:
-            saveEmployeeProjectsSentenceToRecords(employees, records);
+            generateEmployeePresentation(employees);
             break;
         case 9:
-            extractAttributesFromRecords(records, recordsSize);
+            showHardcodedEmployees();
             break;
         case 10:
+            saveEmployeeProjectsSentenceToRecords(employees, records);
+            break;
+        case 11:
+            extractAttributesFromRecords(records, recordsSize);
+            break;
+        case 12:
             running = false;
             break;
         default:
