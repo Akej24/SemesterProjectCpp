@@ -1,7 +1,6 @@
 #include "../header_files/ChoiceService.hpp"
 
 void createEmployee(vector<Employee *> &employees, int id, bool withProject) {
-    Employee *employee = nullptr;
     int age, workedHours;
     double salaryPerHour;
     string name, firstName, lastName, street_address, city, postal_code, departmentName, projectName, projectDescription;
@@ -17,40 +16,36 @@ void createEmployee(vector<Employee *> &employees, int id, bool withProject) {
     cin >> workedHours;
     cout << "Podaj stawke godzinowa: ";
     cin >> salaryPerHour;
-
-    cout << "Podaj adres:" << endl;
+    cout << "Podaj adres:\n";
     cout << "a) Ulica: ";
     cin >> street_address;
     cout << "b) Miasto: ";
     cin >> city;
     cout << "c) Kod pocztowy: ";
     cin >> postal_code;
-
     cout << "Podaj nazwe oddzialu: ";
     cin >> departmentName;
 
-    Address address{street_address, city, postal_code};
-    Department department{departmentName, (int) employees.size()};
+    Address *address = new Address(street_address, city, postal_code);
+    Department *department = new Department(departmentName, (int)employees.size());
 
-    if(withProject) {
+    if (withProject) {
         cout << "Podaj projekt: " << endl;
         cout << "a) Nazwa ";
         cin >> projectName;
         cout << "b) Opis ";
         cin >> projectDescription;
 
-        Project *project1 = new Project{projectName, 1, projectDescription};
+        Project *project1 = new Project(projectName, 1, projectDescription);
         Project **projects = new Project *[2]; // it indicates on array of pointers that each other is refering to specific project: projects -> [*project1->[projectData...],*project2->[projectData...],*project3->[projectData...],...]
         projects[0] = project1;
         projects[1] = nullptr;
 
-        InitializationDataWithProject data(employee, id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, projects);
-        initialize(data);
-        employees.push_back(employee);
+        InitializationDataWithProject data(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, projects);
+        employees.push_back(new Employee(data));
     } else {
-        InitializationData data(employee, id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department);
-        initialize(data);
-        employees.push_back(employee);
+        InitializationData data(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department);
+        employees.push_back(new Employee(data));
     }
 }
 
@@ -64,7 +59,7 @@ void deleteEmployeeFromVector(vector<Employee *> &employees) {
     if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
         return;
 
-    deleteEmployee(employees[employeeIndex]);
+    employees[employeeIndex]->deleteEmployee();
     employees.erase(employees.begin() + employeeIndex);
 }
 
@@ -85,8 +80,8 @@ void addProjectToEmployee(const vector<Employee *> &employees) {
     cout << "Podaj opis projektu: ";
     cin >> projectDescription;
 
-    Project *newProject = new Project{projectName, countProjects(employee) + 1, projectDescription};
-    add(newProject, employee);
+    Project *newProject = new Project{projectName, employee->countProjects() + 1, projectDescription};
+    employee->addProject(newProject);
 }
 
 void showEmployeeInfo(const vector<Employee *> &employees) {
@@ -100,7 +95,7 @@ void showEmployeeInfo(const vector<Employee *> &employees) {
         return;
 
     Employee *employee = employees[employeeIndex];
-    show(employee);
+    employee->show();
 }
 
 void calculateEmployeeSalary(const vector<Employee *> &employees) {
@@ -114,7 +109,7 @@ void calculateEmployeeSalary(const vector<Employee *> &employees) {
         return;
 
     Employee *employee = employees[employeeIndex];
-    double salary = calculateSalary(employee);
+    double salary = employee->calculateSalary();
     cout << "Zarobki pracownika: " << salary << endl;
 }
 
@@ -129,7 +124,7 @@ void showEmployeeProjectsAmount(const vector<Employee *> &employees) {
         return;
 
     Employee *employee = employees[employeeIndex];
-    cout << "Ilosc projektow pracownika: " << countProjects(employee) << endl;
+    cout << "Ilosc projektow pracownika: " << employee->countProjects() << endl;
 }
 
 void generateEmployeePresentation(const vector<Employee *> &employees) {
@@ -143,7 +138,7 @@ void generateEmployeePresentation(const vector<Employee *> &employees) {
         return;
 
     Employee *employee = employees[employeeIndex];
-    presentEmployee(*employee);
+    employee->presentEmployee();
 }
 
 void saveEmployeeProjectsSentenceToRecords(const vector<Employee *> &employees, string *records) {
@@ -157,7 +152,7 @@ void saveEmployeeProjectsSentenceToRecords(const vector<Employee *> &employees, 
         return;
 
     Employee *employee = employees[employeeIndex];
-    string resultSentence = "Employee " + employee->firstName + " " + capitalizeFirstLetter(employee->lastName) + " has " + to_string(countProjects(employee)) + " projects.";
+    string resultSentence = "Employee " + employee->getFirstName() + " " + capitalizeFirstLetter(employee->getLastName()) + " has " + to_string(employee->countProjects()) + " projects.";
     records[employeeIndex] = resultSentence;
 
     cout << "Pomyslnie zapisano, aktualne rekordy: " << endl;

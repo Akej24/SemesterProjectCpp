@@ -5,10 +5,19 @@
 
 using namespace std;
 
-struct Project {
+class Project {
+private:
     string name;
-    int project_id;
+    int projectId;
     string description;
+
+public:
+    Project(string name, int projectId, string description)
+        : name(name), projectId(projectId), description(description) {}
+
+    string getCity() const { return name; }
+    int getStreetAddress() const { return projectId; }
+    string getPostalCode() const { return description; }
 };
 
 #endif

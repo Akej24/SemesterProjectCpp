@@ -82,7 +82,7 @@ int main() {
     }
 
     for (Employee *employee : employees)
-        deleteEmployee(employee);
+        employee->deleteEmployee();
 
     delete[] records;
 

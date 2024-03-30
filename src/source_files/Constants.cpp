@@ -3,9 +3,11 @@
 void showHardcodedEmployees() {
     cout << "Imiona:\n";
     for (string_view firstName : firstNames)
-        cout << firstName << endl;
+        cout << firstName << "\n";
 
     cout << "\nNazwiska:\n";
     for (string_view lastName : lastNames)
-        cout << lastName << endl;
+        cout << lastName << "\n";
+        
+    cout << endl;
 }
