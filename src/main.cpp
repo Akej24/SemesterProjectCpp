@@ -1,35 +1,38 @@
-#include "choiceService.h"
 #include <iostream>
 #include <random>
 #include <string_view>
 #include <vector>
+#include "./header_files/ChoiceService.hpp"
+#include "./header_files/Constants.hpp"
 
 using namespace std;
 
 int main() {
     bool running = true;
-    random_device rd;
-    default_random_engine eng(rd());
+
+    default_random_engine eng(random_device{}());
     uniform_int_distribution<int> idDistribution(1000, 9999);
     uniform_int_distribution<int> recordsSizeDistribution(50, 100);
 
-    vector<Employee *> employees;
     const int recordsSize = recordsSizeDistribution(eng);
     string *records = new string[recordsSize];
+    vector<Employee *> employees;
 
     while (running) {
-        cout << "--------------------------------------------------------" << endl;
-        cout << "1. Stworz pracownika" << endl;
-        cout << "2. Dodaj projekt pracownikowi" << endl;
-        cout << "3. Pokaz informacje o pracowniku" << endl;
-        cout << "4. Oblicz zarobki pracownika" << endl;
-        cout << "5. Pokaz ilosc projektow pracownika" << endl;
-        cout << "6. Zaprezentuj pracownika" << endl;
-        cout << "7. Pokaz zahardcodowanych pracownikow" << endl;
-        cout << "8. Wygeneruj zdanie o pracownikow i zapisz do rekordow" << endl;
-        cout << "9. Wyodredbnij (sparsuj) dane z rekordow" << endl;
-        cout << "10. Wyjscie" << endl;
-        cout << "--------------------------------------------------------" << endl;
+        cout 
+            << "--------------------------------------------------------\n"
+            << "1. Stworz pracownika\n"
+            << "2. Dodaj projekt pracownikowi\n"
+            << "3. Pokaz informacje o pracowniku\n"
+            << "4. Oblicz zarobki pracownika\n"
+            << "5. Pokaz ilosc projektow pracownika\n"
+            << "6. Zaprezentuj pracownika\n"
+            << "7. Pokaz zahardcodowanych pracownikow\n"
+            << "8. Wygeneruj zdanie o pracownikow i zapisz do rekordow\n"
+            << "9. Wyodredbnij (sparsuj) dane z rekordow\n"
+            << "10. Wyjscie\n"
+            << "--------------------------------------------------------" << endl;
+
 
         int choice;
         cin >> choice;
@@ -63,7 +66,8 @@ int main() {
             extractAttributesFromRecords(records, recordsSize);
             break;
         case 10:
-
+            running = false;
+            break;
         default:
             cout << "Niepoprawny wybor!" << endl;
             break;

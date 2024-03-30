@@ -1,14 +1,16 @@
-#include "employee.h"
-#include <iostream>
-#include <string>
-
-using namespace std;
+#include "../header_files/Employee.hpp"
 
 void create(Employee *&employee) {
     employee = new Employee;
 }
 
-void deleteEmployee(Employee *&employee) {
+/*
+    Employee *employee: Passing by value. Changes to the pointer (like setting it to nullptr) won't affect the original pointer outside the function, but changes to the
+    object pointed to by the pointer (like deleting it) will. Employee *&employee: Passing by reference. Changes to the pointer (like setting it to nullptr) will affect
+    the original pointer outside the function, as well as changes to the object pointed to by the pointer.
+*/
+
+void deleteEmployee(Employee *&employee) { // if I use * it will delete only copy of pointer, when I use *& it will delete by reference instead of value
     delete employee;
     employee = nullptr;
 }
@@ -49,16 +51,15 @@ void add(Project *project, Employee *employee) {
     }
 }
 
-
 void show(Employee *employee) {
-    cout << "ID: " << employee->id << endl;
-    cout << "Imie: " << employee->name << endl;
-    cout << "Wiek: " << employee->age << endl;
-    cout << "Imie: " << employee->firstName << endl;
-    cout << "Nazwisko: " << employee->lastName << endl;
-    cout << "Przepracowane godziny: " << employee->workedHours << endl;
-    cout << "Pensja na godzine: " << employee->salaryPerHour << endl;
-    cout << "Adres: " << employee->address.street_address << ", " << employee->address.city << ", " << employee->address.postal_code << endl;
+    cout << "ID: " << employee->id << "\n";
+    cout << "Imie: " << employee->name << "\n";
+    cout << "Wiek: " << employee->age << "\n";
+    cout << "Imie: " << employee->firstName << "\n";
+    cout << "Nazwisko: " << employee->lastName << "\n";
+    cout << "Przepracowane godziny: " << employee->workedHours << "\n";
+    cout << "Pensja na godzine: " << employee->salaryPerHour << "\n";
+    cout << "Adres: " << employee->address.street_address << ", " << employee->address.city << ", " << employee->address.postal_code << "\n";
     cout << "Oddzial: " << employee->department.name << " (ID: " << employee->department.department_id << ")" << endl;
 }
 
@@ -75,25 +76,7 @@ int countProjects(Employee *employee) {
     return projectCount;
 }
 
-void showHardcodedEmployees() {
-    cout << "Imiona:" << endl;
-    for (string_view firstName : firstNames)
-        cout << firstName << endl;
-    cout << endl
-         << "Nazwiska:" << endl;
-    for (string_view lastName : lastNames)
-        cout << lastName << endl;
-}
-
 void presentEmployee(const Employee &employee) {
-    cout << "Employee " << employee.firstName << " " << capitalizeFirstLetter(employee.lastName) << " has "
-         << employee.age << " years old and works in department " << employee.department.name << endl;
-}
-
-string capitalizeFirstLetter(const string &s) {
-    if (s.empty())
-        return "";
-    string result = s;
-    result[0] = toupper(result[0]);
-    return result;
+    cout << "Employee " << employee.firstName << " " << capitalizeFirstLetter(employee.lastName)
+        << " has " << employee.age << " years old and works in department " << employee.department.name << endl;
 }

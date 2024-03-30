@@ -12,7 +12,7 @@ if not exist .\target\ (
 del /q /s .\target\* > nul
 
 :: Compile app into .exe
-g++ .\src\*.cpp -o .\target\app.exe
+g++ .\src\main.cpp .\src\source_files\*.cpp -o .\target\app.exe
 
 :: Run app
 start .\target\app.exe

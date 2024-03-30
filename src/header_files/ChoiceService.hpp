@@ -1,8 +1,13 @@
-#include "employee.h"
+#ifndef CHOICESERVICE
+#define CHOICESERVICE
+
 #include <iostream>
-#include <random>
 #include <string_view>
 #include <vector>
+#include "Employee.hpp"
+#include "Records.hpp"
+#include "Utlis.hpp"
+#include "Validator.hpp"
 
 void createEmployee(vector<Employee *> &employees, int id);
 void addProjectToEmployee(const vector<Employee *> &employees);
@@ -14,3 +19,5 @@ void showEmployeeProjectsAmount(const vector<Employee *> &employees);
 void generateEmployeePresentation(const vector<Employee *> &employees);
 void saveEmployeeProjectsSentenceToRecords(const vector<Employee *> &employees, string* records);
 void extractAttributesFromRecords(const string *records, int size);
+
+#endif

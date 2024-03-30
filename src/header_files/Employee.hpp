@@ -1,26 +1,14 @@
+#ifndef EMPLOYEE
+#define EMPLOYEE
+
+#include <iostream>
 #include <string>
+#include "Address.hpp"
+#include "Department.hpp"
+#include "Project.hpp"
+#include "Utlis.hpp"
 
 using namespace std;
-
-constexpr string_view firstNames[] = {"John", "Alice", "Michael", "Emma", "William", "Olivia", "James", "Sophia", "Benjamin", "Isabella"};
-constexpr string_view lastNames[] = {"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"};
-
-struct Address {
-    string street_address;
-    string city;
-    string postal_code;
-};
-
-struct Department {
-    string name;
-    int department_id;
-};
-
-struct Project {
-    string name;
-    int project_id;
-    string description;
-};
 
 struct Employee {
     int id;
@@ -41,10 +29,8 @@ void deleteEmployee(Employee *&employee);
 void add(Project *project, Employee *employee);
 void show(Employee *employee);
 
+void presentEmployee(const Employee &employee);
 double calculateSalary(Employee *employee);
 int countProjects(Employee *employee);
 
-void showHardcodedEmployees();
-
-string capitalizeFirstLetter(const string &s);
-void presentEmployee(const Employee &employee);
+#endif

@@ -1,27 +1,4 @@
-#include "employee.h"
-#include <iostream>
-#include <random>
-#include <string_view>
-#include <vector>
-
-using namespace std;
-
-bool checkValidEmployeeIndex(int employeeIndex, const vector<Employee *> &employees) {
-    if (employeeIndex >= 0 && employeeIndex < employees.size())
-        return true;
-    else {
-        cout << "Niepoprawny indeks pracownika!" << endl;
-        return false;
-    }
-}
-
-bool checkAnyEmployeeExists(const vector<Employee *> &employees) {
-    if (employees.empty()) {
-        cout << "Brak pracownikow do wyswietlenia ilosci projektow!" << endl;
-        return false;
-    } else
-        return true;
-}
+#include "../header_files/ChoiceService.hpp"
 
 void createEmployee(vector<Employee *> &employees, int id) {
     Employee *employee = nullptr;
@@ -59,7 +36,7 @@ void createEmployee(vector<Employee *> &employees, int id) {
     cin >> projectDescription;
 
     Project *project1 = new Project{projectName, 1, projectDescription};
-    Project **projects = new Project *[2];
+    Project **projects = new Project *[2]; // it indicates on array of pointers that each other is refering to specific project: projects -> [*project1->[projectData...],*project2->[projectData...],*project3->[projectData...],...]
     projects[0] = project1;
     projects[1] = nullptr;
 
@@ -77,7 +54,7 @@ void addProjectToEmployee(const vector<Employee *> &employees) {
     int employeeIndex;
     cout << "Wybierz indeks pracownika: ";
     cin >> employeeIndex;
-    if (!checkValidEmployeeIndex(employeeIndex, employees))
+    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
         return;
 
     Employee *employee = employees[employeeIndex];
@@ -98,7 +75,7 @@ void showEmployeeInfo(const vector<Employee *> &employees) {
     int employeeIndex;
     cout << "Wybierz indeks pracownika: ";
     cin >> employeeIndex;
-    if (!checkValidEmployeeIndex(employeeIndex, employees))
+    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
         return;
 
     Employee *employee = employees[employeeIndex];
@@ -112,7 +89,7 @@ void calculateEmployeeSalary(const vector<Employee *> &employees) {
     int employeeIndex;
     cout << "Wybierz indeks pracownika: ";
     cin >> employeeIndex;
-    if (!checkValidEmployeeIndex(employeeIndex, employees))
+    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
         return;
 
     Employee *employee = employees[employeeIndex];
@@ -127,7 +104,7 @@ void showEmployeeProjectsAmount(const vector<Employee *> &employees) {
     int employeeIndex;
     cout << "Wybierz indeks pracownika: ";
     cin >> employeeIndex;
-    if (!checkValidEmployeeIndex(employeeIndex, employees))
+    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
         return;
 
     Employee *employee = employees[employeeIndex];
@@ -141,7 +118,7 @@ void generateEmployeePresentation(const vector<Employee *> &employees) {
     int employeeIndex;
     cout << "Wybierz indeks pracownika: ";
     cin >> employeeIndex;
-    if (!checkValidEmployeeIndex(employeeIndex, employees))
+    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
         return;
 
     Employee *employee = employees[employeeIndex];
@@ -155,7 +132,7 @@ void saveEmployeeProjectsSentenceToRecords(const vector<Employee *> &employees, 
     int employeeIndex;
     cout << "Wybierz indeks pracownika: ";
     cin >> employeeIndex;
-    if (!checkValidEmployeeIndex(employeeIndex, employees))
+    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
         return;
 
     Employee *employee = employees[employeeIndex];
@@ -167,36 +144,4 @@ void saveEmployeeProjectsSentenceToRecords(const vector<Employee *> &employees, 
     for (int i = 0; i < employees.size(); i++)
         if (!records[i].empty())
             cout << "Rekord " << i << ": " << records[i] << endl;
-}
-
-string extractFirstName(const string &sentence) {
-    size_t start = sentence.find("Employee ") + 9;
-    size_t end = sentence.find(" ", start);
-    return sentence.substr(start, end - start);
-}
-
-string extractLastName(const string &sentence) {
-    size_t start = sentence.find(" ") + 1;
-    size_t end = sentence.find(" has ", start);
-    return sentence.substr(start, end - start);
-}
-
-int extractProjectsAmount(const string &sentence) {
-    size_t start = sentence.find(" has ") + 5;
-    size_t end = sentence.find(" projects", start);
-    return stoi(sentence.substr(start, end - start));
-}
-
-void extractAttributesFromRecords(const string *records, int size) {
-    for (int i = 0; i < size; ++i) {
-        if (!records[i].empty()) {
-            string firstName = extractFirstName(records[i]);
-            string lastName = extractLastName(records[i]);
-            int projectsAmount = extractProjectsAmount(records[i]);
-            cout << "Wyodrebnione dane: " << endl;
-            cout << "- firstName: " << firstName << endl;
-            cout << "- lastName: " << lastName << endl;
-            cout << "- projectsAmount: " << projectsAmount << endl;
-        }
-    }
 }
