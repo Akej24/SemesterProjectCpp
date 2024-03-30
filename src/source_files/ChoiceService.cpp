@@ -1,5 +1,17 @@
 #include "../header_files/ChoiceService.hpp"
 
+int handleGetEmployeeIndex(const vector<Employee *> &employees) {
+    if (!Validator::checkAnyEmployeeExists)
+        return -1;
+
+    int employeeIndex;
+    cout << "Wybierz indeks pracownika: ";
+    cin >> employeeIndex;
+    if (!Validator::checkValidEmployeeIndex(employeeIndex, employees.size()))
+        return -1;
+    return employeeIndex;
+}
+
 void createEmployee(vector<Employee *> &employees, int id, bool withProject) {
     int age, workedHours;
     double salaryPerHour;
@@ -50,113 +62,70 @@ void createEmployee(vector<Employee *> &employees, int id, bool withProject) {
 }
 
 void deleteEmployeeFromVector(vector<Employee *> &employees) {
-    if (!checkAnyEmployeeExists)
+    int employeeIndex = handleGetEmployeeIndex(employees);
+    if (employeeIndex == -1)
         return;
-
-    int employeeIndex;
-    cout << "Wybierz indeks pracownika: ";
-    cin >> employeeIndex;
-    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
-        return;
-
     employees[employeeIndex]->deleteEmployee();
     employees.erase(employees.begin() + employeeIndex);
 }
 
 void addProjectToEmployee(const vector<Employee *> &employees) {
-    if (!checkAnyEmployeeExists)
+    int employeeIndex = handleGetEmployeeIndex(employees);
+    if (employeeIndex == -1)
         return;
 
-    int employeeIndex;
-    cout << "Wybierz indeks pracownika: ";
-    cin >> employeeIndex;
-    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
-        return;
-
-    Employee *employee = employees[employeeIndex];
     string projectName, projectDescription;
     cout << "Podaj nazwe projektu: ";
     cin >> projectName;
     cout << "Podaj opis projektu: ";
     cin >> projectDescription;
 
+    Employee *employee = employees[employeeIndex];
     Project *newProject = new Project{projectName, employee->countProjects() + 1, projectDescription};
     employee->addProject(newProject);
 }
 
 void showEmployeeInfo(const vector<Employee *> &employees) {
-    if (!checkAnyEmployeeExists)
+    int employeeIndex = handleGetEmployeeIndex(employees);
+    if (employeeIndex == -1)
         return;
-
-    int employeeIndex;
-    cout << "Wybierz indeks pracownika: ";
-    cin >> employeeIndex;
-    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
-        return;
-
-    Employee *employee = employees[employeeIndex];
-    employee->show();
+    employees[employeeIndex]->show();
 }
 
 void calculateEmployeeSalary(const vector<Employee *> &employees) {
-    if (!checkAnyEmployeeExists)
+    int employeeIndex = handleGetEmployeeIndex(employees);
+    if (employeeIndex == -1)
         return;
-
-    int employeeIndex;
-    cout << "Wybierz indeks pracownika: ";
-    cin >> employeeIndex;
-    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
-        return;
-
-    Employee *employee = employees[employeeIndex];
-    double salary = employee->calculateSalary();
+    double salary = employees[employeeIndex]->calculateSalary();
     cout << "Zarobki pracownika: " << salary << endl;
 }
 
 void showEmployeeProjectsAmount(const vector<Employee *> &employees) {
-    if (!checkAnyEmployeeExists)
+    int employeeIndex = handleGetEmployeeIndex(employees);
+    if (employeeIndex == -1)
         return;
-
-    int employeeIndex;
-    cout << "Wybierz indeks pracownika: ";
-    cin >> employeeIndex;
-    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
-        return;
-
-    Employee *employee = employees[employeeIndex];
-    cout << "Ilosc projektow pracownika: " << employee->countProjects() << endl;
+    int projectAmount = employees[employeeIndex]->countProjects();
+    cout << "Ilosc projektow pracownika: " << projectAmount << endl;
 }
 
 void generateEmployeePresentation(const vector<Employee *> &employees) {
-    if (!checkAnyEmployeeExists)
+    int employeeIndex = handleGetEmployeeIndex(employees);
+    if (employeeIndex == -1)
         return;
-
-    int employeeIndex;
-    cout << "Wybierz indeks pracownika: ";
-    cin >> employeeIndex;
-    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
-        return;
-
     Employee *employee = employees[employeeIndex];
     employee->presentEmployee();
 }
 
 void saveEmployeeProjectsSentenceToRecords(const vector<Employee *> &employees, string *records) {
-    if (!checkAnyEmployeeExists(employees))
-        return;
-
-    int employeeIndex;
-    cout << "Wybierz indeks pracownika: ";
-    cin >> employeeIndex;
-    if (!checkValidEmployeeIndex(employeeIndex, employees.size()))
+    int employeeIndex = handleGetEmployeeIndex(employees);
+    if (employeeIndex == -1)
         return;
 
     Employee *employee = employees[employeeIndex];
-    string resultSentence = "Employee " + employee->getFirstName() + " " + capitalizeFirstLetter(employee->getLastName()) + " has " + to_string(employee->countProjects()) + " projects.";
+    string resultSentence = "Employee " + employee->getFirstName() + " " + Utils::capitalizeFirstLetter(employee->getLastName()) + " has " + to_string(employee->countProjects()) + " projects.";
     records[employeeIndex] = resultSentence;
 
     cout << "Pomyslnie zapisano, aktualne rekordy: " << endl;
-
     for (int i = 0; i < employees.size(); i++)
         if (!records[i].empty())
             cout << "Rekord " << i << ": " << records[i] << endl;

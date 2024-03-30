@@ -58,6 +58,6 @@ int Employee::countProjects() const {
 }
 
 void Employee::presentEmployee() {
-    cout << "Employee " << firstName << " " << capitalizeFirstLetter(lastName)
+    cout << "Employee " << firstName << " " << Utils::capitalizeFirstLetter(lastName)
          << " has " << age << " years old and works in department " << department->getName() << endl;
 }

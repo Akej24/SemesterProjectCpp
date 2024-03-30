@@ -1,6 +1,6 @@
 #include "../header_files/Utlis.hpp"
 
-string capitalizeFirstLetter(const string &word) {
+string Utils::capitalizeFirstLetter(const string &word) {
     if (word.empty())
         return "";
     string result = word;

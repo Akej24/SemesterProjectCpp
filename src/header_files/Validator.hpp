@@ -8,8 +8,12 @@
 
 using namespace std;
 
-bool checkValidEmployeeIndex(int employeeIndex, int employeesSize);
-
-bool checkAnyEmployeeExists(const vector<Employee *> &employees);
+class Validator {
+private: 
+    Validator();
+public:
+    static bool checkValidEmployeeIndex(int employeeIndex, int employeesSize);
+    static bool checkAnyEmployeeExists(const vector<Employee *> &employees);
+};
 
 #endif
