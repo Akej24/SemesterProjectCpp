@@ -1,15 +1,21 @@
 #ifndef RECORDS
 #define RECORDS
 
-#include <string>
 #include <iostream>
+#include <string>
 #include <vector>
 
 using namespace std;
 
-string extractFirstName(const string &sentence);
-string extractLastName(const string &sentence);
-int extractProjectsAmount(const string &sentence);
-void extractAttributesFromRecords(const string *records, int size);
+class Records {
+private:
+    Records();
+
+public:
+    static string extractFirstName(const string &sentence);
+    static string extractLastName(const string &sentence);
+    static int extractProjectsAmount(const string &sentence);
+    static void extractAttributesFromRecords(const string *records, int size);
+};
 
 #endif

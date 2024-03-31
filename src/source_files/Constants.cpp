@@ -1,6 +1,6 @@
 #include "../header_files/Constants.hpp"
 
-void showHardcodedEmployees() {
+void Constants::showHardcodedEmployees() {
     cout << "Imiona:\n";
     for (string_view firstName : firstNames)
         cout << firstName << "\n";

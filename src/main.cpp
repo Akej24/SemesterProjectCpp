@@ -64,13 +64,13 @@ int main() {
             generateEmployeePresentation(employees);
             break;
         case 9:
-            showHardcodedEmployees();
+            Constants::showHardcodedEmployees();
             break;
         case 10:
             saveEmployeeProjectsSentenceToRecords(employees, records);
             break;
         case 11:
-            extractAttributesFromRecords(records, recordsSize);
+            Records::extractAttributesFromRecords(records, recordsSize);
             break;
         case 12:
             running = false;

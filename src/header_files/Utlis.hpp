@@ -8,8 +8,9 @@ using namespace std;
 string capitalizeFirstLetter(const string &s);
 
 class Utils {
-private: 
+private:
     Utils();
+
 public:
     static string capitalizeFirstLetter(const string &s);
 };

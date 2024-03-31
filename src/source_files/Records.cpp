@@ -1,24 +1,24 @@
 #include "../header_files/Records.hpp"
 
-string extractFirstName(const string &sentence) {
+string Records::extractFirstName(const string &sentence) {
     size_t start = sentence.find("Employee ") + 9;
     size_t end = sentence.find(" ", start);
     return sentence.substr(start, end - start);
 }
 
-string extractLastName(const string &sentence) {
+string Records::extractLastName(const string &sentence) {
     size_t start = sentence.find(" ") + 1;
     size_t end = sentence.find(" has ", start);
     return sentence.substr(start, end - start);
 }
 
-int extractProjectsAmount(const string &sentence) {
+int Records::extractProjectsAmount(const string &sentence) {
     size_t start = sentence.find(" has ") + 5;
     size_t end = sentence.find(" projects", start);
     return stoi(sentence.substr(start, end - start));
 }
 
-void extractAttributesFromRecords(const string *records, int size) {
+void Records::extractAttributesFromRecords(const string *records, int size) {
     for (int i = 0; i < size; ++i) {
         if (!records[i].empty()) {
             string firstName = extractFirstName(records[i]);

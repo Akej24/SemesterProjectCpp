@@ -1,18 +1,18 @@
 #ifndef EMPLOYEE
 #define EMPLOYEE
 
+#include <iostream>
+#include <string>
+#include <tuple>
 #include "Address.hpp"
 #include "Department.hpp"
 #include "Project.hpp"
 #include "Utlis.hpp"
-#include <iostream>
-#include <string>
-#include <tuple>
 
 using namespace std;
 
-using InitializationDataWithProject = tuple<int, string, int, string, string, int, double, Address*, Department*, Project **>;
-using InitializationData = tuple<int, string, int, string, string, int, double, Address*, Department*>;
+using InitializationDataWithProject = tuple<int, string, int, string, string, int, double, Address *, Department *, Project **>;
+using InitializationData = tuple<int, string, int, string, string, int, double, Address *, Department *>;
 
 class Employee {
 private:
@@ -23,8 +23,8 @@ private:
     string lastName;
     int workedHours;
     double salaryPerHour;
-    Address* address;
-    Department* department;
+    Address *address;
+    Department *department;
     Project **projects;
 
 public:
