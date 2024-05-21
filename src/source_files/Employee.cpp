@@ -32,6 +32,28 @@ void Employee::addProject(Project *project) {
     }
 }
 
+void Employee::deleteProject(Project *project) {
+    if (projects == nullptr)
+        return;
+
+    int foundProjectIndex = 0;
+    while (projects[foundProjectIndex] != nullptr && projects[foundProjectIndex] != project)
+        ++foundProjectIndex;
+
+    if (projects[foundProjectIndex] == nullptr)
+        return;
+
+    delete projects[foundProjectIndex];
+    for (int i = foundProjectIndex; projects[i] != nullptr; i++) {
+        projects[i] = projects[i + 1];
+    }
+
+    if (projects[0] == nullptr) {
+        delete[] projects;
+        projects = nullptr;
+    }
+}
+
 void Employee::show() {
     cout << "ID: " << id << "\n";
     cout << "Imie: " << name << "\n";

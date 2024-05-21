@@ -14,10 +14,13 @@ private:
 public:
     Project(string name, int projectId, string description)
         : name(name), projectId(projectId), description(description) {}
+    ~Project() {
+        cout << "Projekt o id: " << projectId << ", nazwie: " << name << " zostal usuniety" << endl;
+    }
 
-    string getCity() const { return name; }
-    int getStreetAddress() const { return projectId; }
-    string getPostalCode() const { return description; }
+    string getName() const { return name; }
+    int getProjectId() const { return projectId; }
+    string getDescription() const { return description; }
 };
 
 #endif

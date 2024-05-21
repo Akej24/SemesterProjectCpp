@@ -33,6 +33,7 @@ public:
 
     void deleteEmployee();
     void addProject(Project *project);
+    void deleteProject(Project *project);
     void show();
     void presentEmployee();
     double calculateSalary() const;

@@ -43,9 +43,9 @@ void createEmployee(vector<Employee *> &employees, int id, bool withProject) {
 
     if (withProject) {
         cout << "Podaj projekt: " << endl;
-        cout << "a) Nazwa ";
+        cout << "a) Nazwa: ";
         cin >> projectName;
-        cout << "b) Opis ";
+        cout << "b) Opis: ";
         cin >> projectDescription;
 
         Project *project1 = new Project(projectName, 1, projectDescription);
@@ -83,6 +83,32 @@ void addProjectToEmployee(const vector<Employee *> &employees) {
     Employee *employee = employees[employeeIndex];
     Project *newProject = new Project{projectName, employee->countProjects() + 1, projectDescription};
     employee->addProject(newProject);
+}
+
+void deleteEmployeeProject(const vector<Employee *> &employees) {
+    int employeeIndex = handleGetEmployeeIndex(employees);
+    if (employeeIndex == -1)
+        return;
+
+    string projectName;
+    cout << "Podaj nazwe projektu do usuniecia: ";
+    cin >> projectName;
+
+    Employee *employee = employees[employeeIndex];
+    Project **projects = employee->getProjects();
+    bool foundMinimumOne = false;
+
+    for (int i = 0; projects[i] != nullptr;) {
+        if (projects[i]->getName() != projectName) {
+            i++;
+            continue;
+        }             
+        employee->deleteProject(projects[i]);
+        foundMinimumOne = true;
+    }
+
+    if (!foundMinimumOne)
+        cout << "Nie znaleziono projektu z podana nazwa" << endl;
 }
 
 void showEmployeeInfo(const vector<Employee *> &employees) {

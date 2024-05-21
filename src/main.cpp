@@ -15,6 +15,7 @@ int main() {
     uniform_int_distribution<int> recordsSizeDistribution(50, 100);
 
     const int recordsSize = recordsSizeDistribution(eng);
+
     string *records = new string[recordsSize];
     vector<Employee *> employees;
 
@@ -24,15 +25,16 @@ int main() {
             << "1. Stworz pracownika z projektem\n"
             << "2. Stworz pracownika bez projektu\n"
             << "3. Dodaj projekt pracownikowi\n"
-            << "4. Pokaz informacje o pracowniku\n"
-            << "5. Usun parcownika\n"
-            << "6. Oblicz zarobki pracownika\n"
-            << "7. Pokaz ilosc projektow pracownika\n"
-            << "8. Zaprezentuj pracownika\n"
-            << "9. Pokaz zahardcodowanych pracownikow\n"
-            << "10. Wygeneruj zdanie o pracownikow i zapisz do rekordow\n"
-            << "11. Wyodredbnij (sparsuj) dane z rekordow\n"
-            << "12. Wyjscie\n"
+            << "4. Usun projekt pracownikowi\n"
+            << "5. Pokaz informacje o pracowniku\n"
+            << "6. Usun parcownika\n"
+            << "7. Oblicz zarobki pracownika\n"
+            << "8. Pokaz ilosc projektow pracownika\n"
+            << "9. Zaprezentuj pracownika\n"
+            << "10. Pokaz zahardcodowanych pracownikow\n"
+            << "11. Wygeneruj zdanie o pracownikow i zapisz do rekordow\n"
+            << "12. Wyodredbnij (sparsuj) dane z rekordow\n"
+            << "13. Wyjscie\n"
             << "--------------------------------------------------------" << endl;
 
         int choice;
@@ -49,30 +51,33 @@ int main() {
             addProjectToEmployee(employees);
             break;
         case 4:
-            showEmployeeInfo(employees);
+            deleteEmployeeProject(employees);
             break;
         case 5:
-            deleteEmployeeFromVector(employees);
+            showEmployeeInfo(employees);
             break;
         case 6:
-            calculateEmployeeSalary(employees);
+            deleteEmployeeFromVector(employees);
             break;
         case 7:
-            showEmployeeProjectsAmount(employees);
+            calculateEmployeeSalary(employees);
             break;
         case 8:
-            generateEmployeePresentation(employees);
+            showEmployeeProjectsAmount(employees);
             break;
         case 9:
-            Constants::showHardcodedEmployees();
+            generateEmployeePresentation(employees);
             break;
         case 10:
-            saveEmployeeProjectsSentenceToRecords(employees, records);
+            Constants::showHardcodedEmployees();
             break;
         case 11:
-            Records::extractAttributesFromRecords(records, recordsSize);
+            saveEmployeeProjectsSentenceToRecords(employees, records);
             break;
         case 12:
+            Records::extractAttributesFromRecords(records, recordsSize);
+            break;
+        case 13:
             running = false;
             break;
         default:
@@ -80,11 +85,5 @@ int main() {
             break;
         }
     }
-
-    for (Employee *employee : employees)
-        employee->deleteEmployee();
-
-    delete[] records;
-
     return 0;
 }
