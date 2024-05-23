@@ -74,3 +74,35 @@ void Employee::presentEmployee() {
     cout << "Employee " << firstName << " " << Utils::capitalizeFirstLetter(lastName)
          << " has " << age << " years old and works in department " << department->getName() << endl;
 }
+
+Employee& Employee::operator=(const Employee& other) {
+    if (this == &other)
+        return *this;
+    Person::operator=(other);
+    workedHours = other.workedHours;
+    salaryPerHour = other.salaryPerHour;
+    hasRaise = other.hasRaise;
+    return *this;
+}
+
+Employee* Employee::operator[](int index) {
+    return this;
+}
+
+ostream& operator<<(ostream& os, const Employee& employee) {
+    os << "ID: " << employee.id << "\n";
+    os << "Imie: " << employee.name << "\n";
+    os << "Wiek: " << employee.age << "\n";
+    os << "Imie: " << employee.firstName << "\n";
+    os << "Nazwisko: " << employee.lastName << "\n";
+    os << "Przepracowane godziny: " << employee.workedHours << "\n";
+    os << "Pensja na godzine: " << employee.salaryPerHour << "\n";
+    os << "Adres: " << employee.address->getStreetAddress() << ", " << employee.address->getCity() << ", " << employee.address->getPostalCode() << "\n";
+    os << "Oddzial: " << employee.department->getName() << " (ID: " << employee.department->getDepartmentId() << ")\n";
+    return os;
+}
+
+istream& operator>>(istream& is, Employee& employee) {
+    is >> employee.id >> employee.name >> employee.age >> employee.firstName >> employee.lastName >> employee.workedHours >> employee.salaryPerHour;
+    return is;
+}

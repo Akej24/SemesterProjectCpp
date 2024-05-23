@@ -27,6 +27,11 @@ public:
         cout << "Adres: " << address->getStreetAddress() << ", " << address->getCity() << ", " << address->getPostalCode() << "\n";
     }
 
+    Boss& operator=(const Boss& other);
+    Boss* operator[](int index);  
+    friend ostream& operator<<(ostream& os, const Boss& employee);
+    friend istream& operator>>(istream& is, Boss& employee);
+
     void deleteBoss();
     void giveRaise(Employee *employee);
     string getTitle() const { return title; }

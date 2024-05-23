@@ -37,6 +37,11 @@ public:
         cout << "Oddzial: " << department->getName() << " (ID: " << department->getDepartmentId() << ")" << endl;
     }
 
+    Employee& operator=(const Employee& other);
+    Employee* operator[](int index);  
+    friend ostream& operator<<(ostream& os, const Employee& employee);
+    friend istream& operator>>(istream& is, Employee& employee);
+
     void deleteEmployee();
     void addProject(Project *project);
     void deleteProject(Project *project);

@@ -2,6 +2,7 @@
 #include "./header_files/Constants.hpp"
 #include "./header_files/EmployeeService.hpp"
 #include "./header_files/PersonService.hpp"
+#include "./header_files/ExampleCompany.hpp"
 #include <iostream>
 #include <random>
 #include <string_view>
@@ -46,7 +47,8 @@ int main() {
             << "15. Wygeneruj zdanie o osobie i zapisz do rekordow\n"
             << "16. Wyodredbnij (sparsuj) dane z rekordow o osobie\n"
             << "\n"
-            << "17. Wyjscie\n"
+            << "17. Zademonstruj przeciazenie operatorow =,[],<< na przykladzie Firmy\n"
+            << "18. Wyjscie\n"
             << "--------------------------------------------------------" << endl;
 
         int choice;
@@ -102,6 +104,9 @@ int main() {
             PersonService::savePersonToRecords(people, records);
             break;
         case 17:
+            ExampleCompany::example();
+            break;
+        case 18:
             running = false;
             break;
         default:
