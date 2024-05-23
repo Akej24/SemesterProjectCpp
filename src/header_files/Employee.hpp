@@ -4,51 +4,52 @@
 #include <iostream>
 #include <string>
 #include <tuple>
-#include "Address.hpp"
+#include "Person.hpp"
 #include "Department.hpp"
 #include "Project.hpp"
 #include "Utlis.hpp"
 
 using namespace std;
 
-using InitializationDataWithProject = tuple<int, string, int, string, string, int, double, Address *, Department *, Project **>;
-using InitializationData = tuple<int, string, int, string, string, int, double, Address *, Department *>;
+using EmployeeInitializationDataWithProject = tuple<int, string, int, string, string, int, double, Address *, Department *, Project **>;
+using EmployeeInitializationData = tuple<int, string, int, string, string, int, double, Address *, Department *>;
 
-class Employee {
+class Employee final : public Person {
 private:
-    int id;
-    string name;
-    int age;
-    string firstName;
-    string lastName;
     int workedHours;
     double salaryPerHour;
-    Address *address;
+    bool hasRaise = false;
     Department *department;
     Project **projects;
 
 public:
-    Employee(InitializationDataWithProject initializationDataWithProject);
-    Employee(InitializationData initializationData);
+    Employee(EmployeeInitializationDataWithProject initializationDataWithProject);
+    Employee(EmployeeInitializationData initializationData);
+    void show() const final override {
+        cout << "ID: " << id << "\n";
+        cout << "Imie: " << name << "\n";
+        cout << "Wiek: " << age << "\n";
+        cout << "Imie: " << firstName << "\n";
+        cout << "Nazwisko: " << lastName << "\n";
+        cout << "Przepracowane godziny: " << workedHours << "\n";
+        cout << "Pensja na godzine: " << salaryPerHour << "\n";
+        cout << "Adres: " << address->getStreetAddress() << ", " << address->getCity() << ", " << address->getPostalCode() << "\n";
+        cout << "Oddzial: " << department->getName() << " (ID: " << department->getDepartmentId() << ")" << endl;
+    }
 
     void deleteEmployee();
     void addProject(Project *project);
     void deleteProject(Project *project);
-    void show();
+
     void presentEmployee();
     double calculateSalary() const;
     int countProjects() const;
 
-    int getId() const { return id; }
-    string getName() const { return name; }
-    int getAge() const { return age; }
-    string getFirstName() const { return firstName; }
-    string getLastName() const { return lastName; }
     int getWorkedHours() const { return workedHours; }
     double getSalaryPerHour() const { return salaryPerHour; }
-    Address getAddress() const { return *address; }
     Department getDepartment() const { return *department; }
     Project **getProjects() const { return projects; }
+    void setRaise(bool hasRaise) { this->hasRaise = hasRaise; }
 };
 
 #endif

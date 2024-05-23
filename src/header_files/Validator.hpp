@@ -4,17 +4,21 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Person.hpp"
 #include "Employee.hpp"
+#include "Boss.hpp"
 
 using namespace std;
 
-class Validator {
+class Validator final {
 private:
     Validator();
 
 public:
-    static bool checkValidEmployeeIndex(int employeeIndex, int employeesSize);
-    static bool checkAnyEmployeeExists(const vector<Employee *> &employees);
+    static bool isEmployee(Person* person);
+    static bool isBoss(Person* person);
+    static bool checkValidPersonIndex(int personIndex, int peopleSize);
+    static bool checkAnyPersonExists(const vector<Person *> &people);
 };
 
 #endif

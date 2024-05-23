@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class Project {
+class Project final {
 private:
     string name;
     int projectId;

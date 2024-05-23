@@ -18,16 +18,23 @@ int Records::extractProjectsAmount(const string &sentence) {
     return stoi(sentence.substr(start, end - start));
 }
 
+string Records::extractTitle(const string &sentence) {
+    size_t start = sentence.find(" has title ") + 11;
+    return sentence.substr(start, sentence.length());
+}
+
 void Records::extractAttributesFromRecords(const string *records, int size) {
     for (int i = 0; i < size; ++i) {
         if (!records[i].empty()) {
-            string firstName = extractFirstName(records[i]);
-            string lastName = extractLastName(records[i]);
-            int projectsAmount = extractProjectsAmount(records[i]);
+
             cout << "Wyodrebnione dane: " << endl;
-            cout << "- firstName: " << firstName << endl;
-            cout << "- lastName: " << lastName << endl;
-            cout << "- projectsAmount: " << projectsAmount << endl;
+            cout << "- firstName: " << extractFirstName(records[i]) << endl;
+            cout << "- lastName: " << extractLastName(records[i]) << endl;
+
+            if (records[i].find("Employee") != string::npos)
+                cout << "- projectsAmount: " << extractProjectsAmount(records[i]) << endl;
+            else
+                cout << "- title: " << extractTitle(records[i]) << endl;
         }
     }
 }

@@ -1,9 +1,11 @@
+#include "./header_files/PersonService.hpp"
+#include "./header_files/EmployeeService.hpp"
+#include "./header_files/BossService.hpp"
+#include "./header_files/Constants.hpp"
 #include <iostream>
 #include <random>
 #include <string_view>
 #include <vector>
-#include "./header_files/ChoiceService.hpp"
-#include "./header_files/Constants.hpp"
 
 using namespace std;
 
@@ -17,16 +19,16 @@ int main() {
     const int recordsSize = recordsSizeDistribution(eng);
 
     string *records = new string[recordsSize];
-    vector<Employee *> employees;
+    vector<Person *> people;
 
     while (running) {
-        cout 
+        cout
             << "--------------------------------------------------------\n"
             << "1. Stworz pracownika z projektem\n"
             << "2. Stworz pracownika bez projektu\n"
             << "3. Dodaj projekt pracownikowi\n"
             << "4. Usun projekt pracownikowi\n"
-            << "5. Pokaz informacje o pracowniku\n"
+            << "5. Pokaz informacje o osobach\n"
             << "6. Usun parcownika\n"
             << "7. Oblicz zarobki pracownika\n"
             << "8. Pokaz ilosc projektow pracownika\n"
@@ -34,7 +36,11 @@ int main() {
             << "10. Pokaz zahardcodowanych pracownikow\n"
             << "11. Wygeneruj zdanie o pracownikow i zapisz do rekordow\n"
             << "12. Wyodredbnij (sparsuj) dane z rekordow\n"
-            << "13. Wyjscie\n"
+            << "13. Stworz szefa\n"
+            << "14. Usun szefa\n"
+            << "15. Nadaj podwyzke jako szef\n"
+            << "16. Zmodyfikuj adres\n"
+            << "17. Wyjscie\n"
             << "--------------------------------------------------------" << endl;
 
         int choice;
@@ -42,42 +48,54 @@ int main() {
 
         switch (choice) {
         case 1:
-            createEmployee(employees, idDistribution(eng), true);
+            EmployeeService::createEmployee(people, idDistribution(eng), true);
             break;
         case 2:
-            createEmployee(employees, idDistribution(eng), false);
+            EmployeeService::createEmployee(people, idDistribution(eng), false);
             break;
         case 3:
-            addProjectToEmployee(employees);
+            EmployeeService::addProjectToEmployee(people);
             break;
         case 4:
-            deleteEmployeeProject(employees);
+            EmployeeService::deleteEmployeeProject(people);
             break;
         case 5:
-            showEmployeeInfo(employees);
+            PersonService::showPersonInfo(people);
             break;
         case 6:
-            deleteEmployeeFromVector(employees);
+            EmployeeService::deleteEmployeeFromVector(people);
             break;
         case 7:
-            calculateEmployeeSalary(employees);
+            EmployeeService::calculateEmployeeSalary(people);
             break;
         case 8:
-            showEmployeeProjectsAmount(employees);
+            EmployeeService::showEmployeeProjectsAmount(people);
             break;
         case 9:
-            generateEmployeePresentation(employees);
+            EmployeeService::generateEmployeePresentation(people);
             break;
         case 10:
             Constants::showHardcodedEmployees();
             break;
         case 11:
-            saveEmployeeProjectsSentenceToRecords(employees, records);
+            PersonService::saveEmployeeProjectsSentenceToRecords(people, records);
             break;
         case 12:
             Records::extractAttributesFromRecords(records, recordsSize);
             break;
         case 13:
+            BossService::createBoss(people, idDistribution(eng));
+            break;
+        case 14:
+            BossService::deleteBossFromVector(people);
+            break;
+        case 15:
+            BossService::giveRaise(people);
+            break;        
+        case 16:
+            PersonService::updateAddress(people);
+            break;
+        case 17:
             running = false;
             break;
         default:

@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class Constants {
+class Constants final {
 private:
     static constexpr string_view firstNames[] = {"John", "Alice", "Michael", "Emma", "William", "Olivia", "James", "Sophia", "Benjamin", "Isabella"};
     static constexpr string_view lastNames[] = {"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"};

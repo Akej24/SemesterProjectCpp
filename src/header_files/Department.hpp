@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class Department {
+class Department final {
 private:
     string name;
     int departmentId;

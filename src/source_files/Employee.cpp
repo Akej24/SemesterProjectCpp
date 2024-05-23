@@ -1,10 +1,10 @@
 #include "../header_files/Employee.hpp"
 
-Employee::Employee(InitializationDataWithProject data) {
+Employee::Employee(EmployeeInitializationDataWithProject data) {
     tie(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, projects) = data;
 }
 
-Employee::Employee(InitializationData data) {
+Employee::Employee(EmployeeInitializationData data) {
     tie(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department) = data;
 }
 
@@ -54,20 +54,11 @@ void Employee::deleteProject(Project *project) {
     }
 }
 
-void Employee::show() {
-    cout << "ID: " << id << "\n";
-    cout << "Imie: " << name << "\n";
-    cout << "Wiek: " << age << "\n";
-    cout << "Imie: " << firstName << "\n";
-    cout << "Nazwisko: " << lastName << "\n";
-    cout << "Przepracowane godziny: " << workedHours << "\n";
-    cout << "Pensja na godzine: " << salaryPerHour << "\n";
-    cout << "Adres: " << address->getStreetAddress() << ", " << address->getCity() << ", " << address->getPostalCode() << "\n";
-    cout << "Oddzial: " << department->getName() << " (ID: " << department->getDepartmentId() << ")" << endl;
-}
-
 double Employee::calculateSalary() const {
-    return workedHours * salaryPerHour;
+    if (hasRaise)
+        return workedHours * salaryPerHour + 1000;
+    else
+        return workedHours * salaryPerHour;
 }
 
 int Employee::countProjects() const {

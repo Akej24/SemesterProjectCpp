@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class Address {
+class Address final {
 private:
     string streetAddress;
     string city;
