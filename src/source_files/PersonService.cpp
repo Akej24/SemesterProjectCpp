@@ -7,7 +7,7 @@ void PersonService::showPersonInfo(const vector<Person *> &people) {
     people[personIndex]->show();
 }
 
-void PersonService::saveEmployeeProjectsSentenceToRecords(const vector<Person *> &people, string *records) {
+void PersonService::savePersonToRecords(const vector<Person *> &people, string *records) {
     int personIndex = ServiceHelper::handleGetPersonIndex(people);
     if (personIndex == -1)
         return;
@@ -37,5 +37,5 @@ void PersonService::updateAddress(const vector<Person *> &people) {
     cout << "c) Kod pocztowy: ";
     cin >> postal_code;
 
-    people[personIndex]->updateAddress(street_address, city, postal_code); 
+    people[personIndex]->updateAddress(street_address, city, postal_code);
 }

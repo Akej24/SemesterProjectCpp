@@ -1,7 +1,7 @@
-#include "./header_files/PersonService.hpp"
-#include "./header_files/EmployeeService.hpp"
 #include "./header_files/BossService.hpp"
 #include "./header_files/Constants.hpp"
+#include "./header_files/EmployeeService.hpp"
+#include "./header_files/PersonService.hpp"
 #include <iostream>
 #include <random>
 #include <string_view>
@@ -24,22 +24,28 @@ int main() {
     while (running) {
         cout
             << "--------------------------------------------------------\n"
+            << "[PRACOWNICY]\n"
             << "1. Stworz pracownika z projektem\n"
             << "2. Stworz pracownika bez projektu\n"
             << "3. Dodaj projekt pracownikowi\n"
             << "4. Usun projekt pracownikowi\n"
-            << "5. Pokaz informacje o osobach\n"
-            << "6. Usun parcownika\n"
-            << "7. Oblicz zarobki pracownika\n"
-            << "8. Pokaz ilosc projektow pracownika\n"
-            << "9. Zaprezentuj pracownika\n"
-            << "10. Pokaz zahardcodowanych pracownikow\n"
-            << "11. Wygeneruj zdanie o pracownikow i zapisz do rekordow\n"
-            << "12. Wyodredbnij (sparsuj) dane z rekordow\n"
-            << "13. Stworz szefa\n"
-            << "14. Usun szefa\n"
-            << "15. Nadaj podwyzke jako szef\n"
-            << "16. Zmodyfikuj adres\n"
+            << "5. Usun parcownika\n"
+            << "6. Oblicz zarobki pracownika\n"
+            << "7. Pokaz ilosc projektow pracownika\n"
+            << "8. Zaprezentuj pracownika\n"
+            << "9. Pokaz zahardcodowanych pracownikow\n"
+            << "\n"
+            << "[SZEFOWIE]\n"
+            << "10. Stworz szefa\n"
+            << "11. Usun szefa\n"
+            << "12. Nadaj podwyzke jako szef\n"
+            << "\n"
+            << "[OSOBY]\n"
+            << "13. Pokaz informacje o osobie\n"
+            << "14. Zmodyfikuj adres osoby\n"
+            << "15. Wygeneruj zdanie o osobie i zapisz do rekordow\n"
+            << "16. Wyodredbnij (sparsuj) dane z rekordow o osobie\n"
+            << "\n"
             << "17. Wyjscie\n"
             << "--------------------------------------------------------" << endl;
 
@@ -60,40 +66,40 @@ int main() {
             EmployeeService::deleteEmployeeProject(people);
             break;
         case 5:
-            PersonService::showPersonInfo(people);
-            break;
-        case 6:
             EmployeeService::deleteEmployeeFromVector(people);
             break;
-        case 7:
+        case 6:
             EmployeeService::calculateEmployeeSalary(people);
             break;
-        case 8:
+        case 7:
             EmployeeService::showEmployeeProjectsAmount(people);
             break;
-        case 9:
+        case 8:
             EmployeeService::generateEmployeePresentation(people);
             break;
-        case 10:
+        case 9:
             Constants::showHardcodedEmployees();
             break;
-        case 11:
-            PersonService::saveEmployeeProjectsSentenceToRecords(people, records);
-            break;
-        case 12:
-            Records::extractAttributesFromRecords(records, recordsSize);
-            break;
-        case 13:
+        case 10:
             BossService::createBoss(people, idDistribution(eng));
             break;
-        case 14:
+        case 11:
             BossService::deleteBossFromVector(people);
             break;
-        case 15:
+        case 12:
             BossService::giveRaise(people);
-            break;        
-        case 16:
+            break;
+        case 13:
+            Records::extractAttributesFromRecords(records, recordsSize);
+            break;
+        case 14:
+            PersonService::showPersonInfo(people);
+            break;
+        case 15:
             PersonService::updateAddress(people);
+            break;
+        case 16:
+            PersonService::savePersonToRecords(people, records);
             break;
         case 17:
             running = false;
