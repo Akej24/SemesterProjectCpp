@@ -106,3 +106,24 @@ istream& operator>>(istream& is, Employee& employee) {
     is >> employee.id >> employee.name >> employee.age >> employee.firstName >> employee.lastName >> employee.workedHours >> employee.salaryPerHour;
     return is;
 }
+
+void Employee::KnownProgrammingLanguages::addLanguage(const string &language) {
+    languages.push_back(language);
+}
+
+void Employee::KnownProgrammingLanguages::removeLanguage(const string &language) {
+    auto it = find(languages.begin(), languages.end(), language); 
+    if (it != languages.end())
+        languages.erase(it); 
+}
+
+void Employee::KnownProgrammingLanguages::showLanguages() const {
+    cout << "Known Programming Languages: ";
+    for (const auto &lang : languages)
+        cout << lang << ", ";
+    cout << endl;
+}
+
+bool Employee::KnownProgrammingLanguages::containsString(const string &str) const { 
+    return find(languages.begin(), languages.end(), str) != languages.end(); 
+}

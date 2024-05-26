@@ -68,7 +68,7 @@ void EmployeeService::addProjectToEmployee(const vector<Person *> &people) {
     cout << "Podaj opis projektu: ";
     cin >> projectDescription;
 
-    Employee *person = dynamic_cast<Employee *>(people[personIndex]);
+    auto *person = dynamic_cast<Employee *>(people[personIndex]);
     Project *newProject = new Project{projectName, person->countProjects() + 1, projectDescription};
     person->addProject(newProject);
 }
@@ -82,7 +82,7 @@ void EmployeeService::deleteEmployeeProject(const vector<Person *> &people) {
     cout << "Podaj nazwe projektu do usuniecia: ";
     cin >> projectName;
 
-    Employee *person = dynamic_cast<Employee *>(people[personIndex]);
+    auto *person = dynamic_cast<Employee *>(people[personIndex]);
     Project **projects = person->getProjects();
     bool foundMinimumOne = false;
 
@@ -120,4 +120,46 @@ void EmployeeService::generateEmployeePresentation(const vector<Person *> &peopl
     if (personIndex == -1)
         return;
     dynamic_cast<Employee *>(people[personIndex])->presentEmployee();
+}
+
+void EmployeeService::cloneEmployee(vector<Person *> &people) {
+    int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
+    if (personIndex == -1)
+        return;
+    auto *employee = dynamic_cast<Employee *>(people[personIndex]);
+    people.push_back(new Employee(*employee));
+}
+
+void EmployeeService::addLanguageToEmployee(const vector<Person *> &people) {
+    int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
+    if (personIndex == -1)
+        return;
+    auto *employee = dynamic_cast<Employee *>(people[personIndex]);
+
+    string language;
+    cout << "Enter programming language to add: ";
+    cin >> language;
+    employee->programmingLanguages.addLanguage(language);
+}
+
+void EmployeeService::removeLanguageFromEmployee(const vector<Person *> &people) {
+    int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
+    if (personIndex == -1)
+        return;
+    auto *employee = dynamic_cast<Employee *>(people[personIndex]);
+
+    string language;
+    cout << "Enter programming language to remove: ";
+    cin >> language;
+    if(employee->programmingLanguages.containsString(language))
+        employee->programmingLanguages.removeLanguage(language);
+}
+
+void EmployeeService::showEmployeeLanguages(const vector<Person *> &people) {
+    int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
+    if (personIndex == -1)
+        return;
+    auto *employee = dynamic_cast<Employee *>(people[personIndex]);
+
+    employee->programmingLanguages.showLanguages();
 }

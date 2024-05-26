@@ -1,13 +1,15 @@
 #ifndef EMPLOYEE
 #define EMPLOYEE
 
+#include "Department.hpp"
+#include "Person.hpp"
+#include "Project.hpp"
+#include "Utlis.hpp"
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <tuple>
-#include "Person.hpp"
-#include "Department.hpp"
-#include "Project.hpp"
-#include "Utlis.hpp"
+#include <vector>
 
 using namespace std;
 
@@ -25,6 +27,17 @@ private:
 public:
     Employee(EmployeeInitializationDataWithProject initializationDataWithProject);
     Employee(EmployeeInitializationData initializationData);
+
+    Employee(const Employee &other) : Person(other), workedHours(other.workedHours), salaryPerHour(other.salaryPerHour), hasRaise(other.hasRaise), department(other.department) {
+        if (other.projects) {
+            int numProjects = countProjects();
+            projects = new Project *[numProjects];
+            for (int i = 0; i < numProjects; ++i)
+                projects[i] = other.projects[i];
+        } else
+            projects = nullptr;
+    }
+
     void show() const final override {
         cout << "ID: " << id << "\n";
         cout << "Imie: " << name << "\n";
@@ -37,10 +50,24 @@ public:
         cout << "Oddzial: " << department->getName() << " (ID: " << department->getDepartmentId() << ")" << endl;
     }
 
-    Employee& operator=(const Employee& other);
-    Employee* operator[](int index);  
-    friend ostream& operator<<(ostream& os, const Employee& employee);
-    friend istream& operator>>(istream& is, Employee& employee);
+    class KnownProgrammingLanguages {
+    private:
+        vector<string> languages;
+
+    public:
+        explicit KnownProgrammingLanguages() {}
+        void addLanguage(const string &language);
+        void removeLanguage(const string &language);
+        void showLanguages() const;    
+        bool containsString(const string &str) const;
+    };
+
+    KnownProgrammingLanguages programmingLanguages;
+
+    Employee &operator=(const Employee &other);
+    Employee *operator[](int index);
+    friend ostream &operator<<(ostream &os, const Employee &employee);
+    friend istream &operator>>(istream &is, Employee &employee);
 
     void deleteEmployee();
     void addProject(Project *project);

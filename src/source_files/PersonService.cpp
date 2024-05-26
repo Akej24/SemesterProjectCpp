@@ -12,9 +12,9 @@ void PersonService::savePersonToRecords(const vector<Person *> &people, string *
     if (personIndex == -1)
         return;
 
-    if (Employee *employee = dynamic_cast<Employee *>(people[personIndex]))
+    if (auto *employee = dynamic_cast<Employee *>(people[personIndex]))
         records[personIndex] = "Employee " + employee->getFirstName() + " " + Utils::capitalizeFirstLetter(employee->getLastName()) + " has " + to_string(employee->countProjects()) + " projects.";
-    else if (Boss *boss = dynamic_cast<Boss *>(people[personIndex]))
+    else if (auto *boss = dynamic_cast<Boss *>(people[personIndex]))
         records[personIndex] = "Boss " + boss->getFirstName() + " " + Utils::capitalizeFirstLetter(boss->getLastName()) + " has title " + boss->getTitle();
 
     cout << "Pomyslnie zapisano, aktualne rekordy: " << endl;

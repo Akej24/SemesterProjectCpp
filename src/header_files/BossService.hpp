@@ -16,12 +16,17 @@ using namespace std;
 
 class BossService final {
 private:
-    BossService();
-
+    BossService() { }
+    BossService(const BossService&) = delete;
+    BossService& operator=(const BossService&) = delete;
 public:
-    void static createBoss(vector<Person *> &people, int id);
-    void static deleteBossFromVector(vector<Person *> &people);
-    void static giveRaise(vector<Person *> &people);
+    static BossService& getInstance() {
+        static BossService instance;
+        return instance;
+    }
+    void createBoss(vector<Person *> &people, int id);
+    void deleteBossFromVector(vector<Person *> &people);
+    void giveRaise(vector<Person *> &people);
 };
 
 #endif

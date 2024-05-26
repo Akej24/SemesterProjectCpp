@@ -18,9 +18,12 @@ int main() {
     uniform_int_distribution<int> recordsSizeDistribution(50, 100);
 
     const int recordsSize = recordsSizeDistribution(eng);
-
     string *records = new string[recordsSize];
     vector<Person *> people;
+
+    auto& personService = PersonService::getInstance();
+    auto& employeeService = EmployeeService::getInstance();
+    auto& bossService = BossService::getInstance();
 
     while (running) {
         cout
@@ -35,20 +38,26 @@ int main() {
             << "7. Pokaz ilosc projektow pracownika\n"
             << "8. Zaprezentuj pracownika\n"
             << "9. Pokaz zahardcodowanych pracownikow\n"
+            << "10. Sklonuj pracownika\n"
+            << "\n"
+            << "[PRACOWNICY - JEZYKI]\n"
+            << "11. Dodaj jezyk pracownikowi\n"
+            << "12. Usun jezyk pracownikowi\n"
+            << "13. Pokaz jezyki pracownika\n"
             << "\n"
             << "[SZEFOWIE]\n"
-            << "10. Stworz szefa\n"
-            << "11. Usun szefa\n"
-            << "12. Nadaj podwyzke jako szef\n"
+            << "14. Stworz szefa\n"
+            << "15. Usun szefa\n"
+            << "16. Nadaj podwyzke jako szef\n"
             << "\n"
             << "[OSOBY]\n"
-            << "13. Pokaz informacje o osobie\n"
-            << "14. Zmodyfikuj adres osoby\n"
-            << "15. Wygeneruj zdanie o osobie i zapisz do rekordow\n"
-            << "16. Wyodredbnij (sparsuj) dane z rekordow o osobie\n"
+            << "17. Pokaz informacje o osobie\n"
+            << "18. Zmodyfikuj adres osoby\n"
+            << "19. Wygeneruj zdanie o osobie i zapisz do rekordow\n"
+            << "20. Wyodredbnij (sparsuj) dane z rekordow o osobie\n"
             << "\n"
-            << "17. Zademonstruj przeciazenie operatorow =,[],<< na przykladzie Firmy\n"
-            << "18. Wyjscie\n"
+            << "21. Zademonstruj przeciazenie operatorow =,[],<< na przykladzie Firmy\n"
+            << "22. Wyjscie\n"
             << "--------------------------------------------------------" << endl;
 
         int choice;
@@ -56,57 +65,69 @@ int main() {
 
         switch (choice) {
         case 1:
-            EmployeeService::createEmployee(people, idDistribution(eng), true);
+            employeeService.createEmployee(people, idDistribution(eng), true);
             break;
         case 2:
-            EmployeeService::createEmployee(people, idDistribution(eng), false);
+            employeeService.createEmployee(people, idDistribution(eng), false);
             break;
         case 3:
-            EmployeeService::addProjectToEmployee(people);
+            employeeService.addProjectToEmployee(people);
             break;
         case 4:
-            EmployeeService::deleteEmployeeProject(people);
+            employeeService.deleteEmployeeProject(people);
             break;
         case 5:
-            EmployeeService::deleteEmployeeFromVector(people);
+            employeeService.deleteEmployeeFromVector(people);
             break;
         case 6:
-            EmployeeService::calculateEmployeeSalary(people);
+            employeeService.calculateEmployeeSalary(people);
             break;
         case 7:
-            EmployeeService::showEmployeeProjectsAmount(people);
+            employeeService.showEmployeeProjectsAmount(people);
             break;
         case 8:
-            EmployeeService::generateEmployeePresentation(people);
+            employeeService.generateEmployeePresentation(people);
             break;
         case 9:
             Constants::showHardcodedEmployees();
             break;
         case 10:
-            BossService::createBoss(people, idDistribution(eng));
+            employeeService.cloneEmployee(people);
             break;
         case 11:
-            BossService::deleteBossFromVector(people);
+            employeeService.addLanguageToEmployee(people);
             break;
         case 12:
-            BossService::giveRaise(people);
+            employeeService.removeLanguageFromEmployee(people);
             break;
         case 13:
-            Records::extractAttributesFromRecords(records, recordsSize);
+            employeeService.showEmployeeLanguages(people);
             break;
         case 14:
-            PersonService::showPersonInfo(people);
+            bossService.createBoss(people, idDistribution(eng));
             break;
         case 15:
-            PersonService::updateAddress(people);
+            bossService.deleteBossFromVector(people);
             break;
         case 16:
-            PersonService::savePersonToRecords(people, records);
+            bossService.giveRaise(people);
             break;
         case 17:
-            ExampleCompany::example();
+            personService.showPersonInfo(people);
             break;
         case 18:
+            personService.updateAddress(people);
+            break;
+        case 19:
+            personService.savePersonToRecords(people, records);
+            break;
+        case 20:
+            Records::extractAttributesFromRecords(records, recordsSize);
+            break;
+        case 21:
+            ExampleCompany::example();
+            break;
+        case 22:
             running = false;
             break;
         default:

@@ -16,17 +16,28 @@ using namespace std;
 
 class EmployeeService final {
 private:
-    EmployeeService();
+    EmployeeService() { }
+    EmployeeService(const EmployeeService&) = delete;
+    EmployeeService& operator=(const EmployeeService&) = delete;
 public:
-    void static createEmployee(vector<Person *> &employees, int id, bool withProject);
-    void static deleteEmployeeFromVector(vector<Person *> &employees);
-    void static addProjectToEmployee(const vector<Person *> &employees);
-    void static deleteEmployeeProject(const vector<Person *> &employees);
+    static EmployeeService& getInstance() {
+        static EmployeeService instance;
+        return instance;
+    }
+    void createEmployee(vector<Person *> &employees, int id, bool withProject);
+    void deleteEmployeeFromVector(vector<Person *> &employees);
+    void addProjectToEmployee(const vector<Person *> &employees);
+    void deleteEmployeeProject(const vector<Person *> &employees);
+    void cloneEmployee(vector<Person *> &employees);
 
-    void static calculateEmployeeSalary(const vector<Person *> &employees);
-    void static showEmployeeProjectsAmount(const vector<Person *> &employees);
+    void calculateEmployeeSalary(const vector<Person *> &employees);
+    void showEmployeeProjectsAmount(const vector<Person *> &employees);
 
-    void static generateEmployeePresentation(const vector<Person *> &employees);
+    void generateEmployeePresentation(const vector<Person *> &employees);
+
+    void addLanguageToEmployee(const vector<Person *> &employees);
+    void removeLanguageFromEmployee(const vector<Person *> &employees);
+    void showEmployeeLanguages(const vector<Person *> &employees);
 };
 
 #endif

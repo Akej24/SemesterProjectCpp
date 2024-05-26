@@ -16,12 +16,17 @@ using namespace std;
 
 class PersonService final {
 private:
-    PersonService();
-
+    PersonService() { }
+    PersonService(const PersonService&) = delete;
+    PersonService& operator=(const PersonService&) = delete;
 public:
-    void static showPersonInfo(const vector<Person *> &people);
-    void static savePersonToRecords(const vector<Person *> &people, string *records);
-    void static updateAddress(const vector<Person *> &people);
+    static PersonService& getInstance() {
+        static PersonService instance;
+        return instance;
+    }
+    void showPersonInfo(const vector<Person *> &people);
+    void savePersonToRecords(const vector<Person *> &people, string *records);
+    void updateAddress(const vector<Person *> &people);
 };
 
 #endif
