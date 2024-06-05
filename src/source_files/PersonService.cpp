@@ -4,7 +4,7 @@ void PersonService::showPersonInfo(const vector<Person *> &people) {
     int personIndex = ServiceHelper::handleGetPersonIndex(people);
     if (personIndex == -1)
         return;
-    people[personIndex]->show();
+    people[personIndex]->show();  //polymporphism
 }
 
 void PersonService::savePersonToRecords(const vector<Person *> &people, string *records) {
@@ -12,11 +12,7 @@ void PersonService::savePersonToRecords(const vector<Person *> &people, string *
     if (personIndex == -1)
         return;
 
-    if (auto *employee = dynamic_cast<Employee *>(people[personIndex]))
-        records[personIndex] = "Employee " + employee->getFirstName() + " " + Utils::capitalizeFirstLetter(employee->getLastName()) + " has " + to_string(employee->countProjects()) + " projects.";
-    else if (auto *boss = dynamic_cast<Boss *>(people[personIndex]))
-        records[personIndex] = "Boss " + boss->getFirstName() + " " + Utils::capitalizeFirstLetter(boss->getLastName()) + " has title " + boss->getTitle();
-
+    records[personIndex] = people[personIndex]->generateSentence(); //polymporphism
     cout << "Pomyslnie zapisano, aktualne rekordy: " << endl;
     for (int i = 0; i < people.size(); i++)
         if (!records[i].empty())

@@ -19,6 +19,7 @@ public:
     Boss(BossInitializationData initializationData);
     ~Boss();
     void show() const final override;
+    string generateSentence() const final override;
     Boss& operator=(const Boss& other);
     friend ostream& operator<<(ostream& os, const Boss& employee);
     friend istream& operator>>(istream& is, Boss& employee);

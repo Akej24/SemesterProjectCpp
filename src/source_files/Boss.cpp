@@ -18,6 +18,10 @@ void Boss::show() const {
     cout << "Adres: " << address->getStreetAddress() << ", " << address->getCity() << ", " << address->getPostalCode() << "\n";
 }
 
+string Boss::generateSentence() const {
+    return "Boss " + firstName + " " + Utils::capitalizeFirstLetter(lastName) + " has title " + title;
+}
+
 void Boss::giveRaise(Employee *employee) {
     employee->setRaise(true);
 }

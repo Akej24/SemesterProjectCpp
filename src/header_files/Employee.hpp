@@ -48,6 +48,7 @@ public:
 
     KnownProgrammingLanguages programmingLanguages;
     void show() const final override;
+    string generateSentence() const final override;
     Employee &operator=(const Employee &other);
     Project *operator[](int index);
     friend ostream &operator<<(ostream &os, const Employee &employee);

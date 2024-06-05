@@ -2,7 +2,7 @@
 
 Address::~Address() { 
     cout << "Adres zostal usuniety" << endl; 
-    }
+}
 
 istream &operator>>(istream &is, Address *&address) {
     string streetAddress, city, postalCode;

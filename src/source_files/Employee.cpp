@@ -33,6 +33,10 @@ void Employee::show() const {
     }
 }
 
+string Employee::generateSentence() const {
+    return "Employee " + firstName + " " + Utils::capitalizeFirstLetter(lastName) + " has " + to_string(this->countProjects()) + " projects.";
+}
+
 Employee::Employee(const Employee &other) : Person(other), workedHours(other.workedHours), salaryPerHour(other.salaryPerHour), hasRaise(other.hasRaise), department(other.department) {
     projects.reserve(other.projects.size());
     for (const auto &project : other.projects)
