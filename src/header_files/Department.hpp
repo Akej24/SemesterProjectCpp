@@ -2,6 +2,7 @@
 #define DEPARTMENT
 
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -12,6 +13,7 @@ private:
 
 public:
     Department(string name, int departmentId) : name(name), departmentId(departmentId) {}
+    ~Department() { cout << "Oddzial zostal usuniety" << endl; }
     string getName() const { return name; }
     int getDepartmentId() const { return departmentId; }
 };

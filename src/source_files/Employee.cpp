@@ -8,6 +8,37 @@ Employee::Employee(EmployeeInitializationData data) {
     tie(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department) = data;
 }
 
+Employee::~Employee() {
+    delete department;
+    for (auto project : projects)
+        delete project;
+    cout << "Zostalem usuniety jako pracownik" << endl;
+}
+
+void Employee::show() const {
+    cout << "ID: " << id << "\n";
+    cout << "Imie: " << name << "\n";
+    cout << "Wiek: " << age << "\n";
+    cout << "Imie: " << firstName << "\n";
+    cout << "Nazwisko: " << lastName << "\n";
+    cout << "Przepracowane godziny: " << workedHours << "\n";
+    cout << "Pensja na godzine: " << salaryPerHour << "\n";
+    cout << "Adres: " << address->getStreetAddress() << ", " << address->getCity() << ", " << address->getPostalCode() << "\n";
+    cout << "Oddzial: " << department->getName() << " (ID: " << department->getDepartmentId() << ")" << endl;
+    if (!projects.empty()) {
+        cout << "Projekty: ";
+        for (const auto &project : projects)
+            cout << project->getName() << " ";
+        cout << endl;
+    }
+}
+
+Employee::Employee(const Employee &other) : Person(other), workedHours(other.workedHours), salaryPerHour(other.salaryPerHour), hasRaise(other.hasRaise), department(other.department) {
+    projects.reserve(other.projects.size());
+    for (const auto &project : other.projects)
+        projects.emplace_back(project);
+}
+
 void Employee::addProject(Project &project) {
     projects.push_back(&project);
 }
@@ -109,4 +140,8 @@ void Employee::KnownProgrammingLanguages::showLanguagesAlphabetic() const {
 
 bool Employee::KnownProgrammingLanguages::containsString(const string &str) const {
     return find(languages.begin(), languages.end(), str) != languages.end();
+}
+
+bool Employee::KnownProgrammingLanguages::operator()(const string &a, const string &b) const {
+    return a.length() > b.length();
 }

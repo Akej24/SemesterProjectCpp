@@ -4,6 +4,20 @@ Boss::Boss(BossInitializationData data) {
     tie(id, name, age, firstName, lastName, title, address) = data;
 }
 
+Boss::~Boss() {
+    cout << "Zostalem usuniety jako szef" << endl;
+}
+
+void Boss::show() const {
+    cout << "ID: " << id << "\n";
+    cout << "Imie: " << name << "\n";
+    cout << "Wiek: " << age << "\n";
+    cout << "Imie: " << firstName << "\n";
+    cout << "Nazwisko: " << lastName << "\n";
+    cout << "Tytul: " << title << "\n";
+    cout << "Adres: " << address->getStreetAddress() << ", " << address->getCity() << ", " << address->getPostalCode() << "\n";
+}
+
 void Boss::giveRaise(Employee *employee) {
     employee->setRaise(true);
 }

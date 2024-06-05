@@ -17,15 +17,8 @@ private:
     
 public:
     Boss(BossInitializationData initializationData);
-    void show() const final override {
-        cout << "ID: " << id << "\n";
-        cout << "Imie: " << name << "\n";
-        cout << "Wiek: " << age << "\n";
-        cout << "Imie: " << firstName << "\n";
-        cout << "Nazwisko: " << lastName << "\n";
-        cout << "Tytul: " << title << "\n";
-        cout << "Adres: " << address->getStreetAddress() << ", " << address->getCity() << ", " << address->getPostalCode() << "\n";
-    }
+    ~Boss();
+    void show() const final override;
     Boss& operator=(const Boss& other);
     friend ostream& operator<<(ostream& os, const Boss& employee);
     friend istream& operator>>(istream& is, Boss& employee);

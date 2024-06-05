@@ -30,28 +30,8 @@ private:
 public:
     Employee(EmployeeInitializationDataWithProject initializationDataWithProject);
     Employee(EmployeeInitializationData initializationData);
-    ~Employee() {
-        delete department;
-        for (auto project : projects)
-            delete project;
-        cout << "Zostalem usuniety jako pracownik" << endl;
-    }
-    Employee(const Employee &other) : Person(other), workedHours(other.workedHours), salaryPerHour(other.salaryPerHour), hasRaise(other.hasRaise), department(other.department) {
-        projects.reserve(other.projects.size());
-        for (const auto &project : other.projects)
-            projects.emplace_back(project);
-    }
-    void show() const final override {
-        cout << "ID: " << id << "\n";
-        cout << "Imie: " << name << "\n";
-        cout << "Wiek: " << age << "\n";
-        cout << "Imie: " << firstName << "\n";
-        cout << "Nazwisko: " << lastName << "\n";
-        cout << "Przepracowane godziny: " << workedHours << "\n";
-        cout << "Pensja na godzine: " << salaryPerHour << "\n";
-        cout << "Adres: " << address->getStreetAddress() << ", " << address->getCity() << ", " << address->getPostalCode() << "\n";
-        cout << "Oddzial: " << department->getName() << " (ID: " << department->getDepartmentId() << ")" << endl;
-    }
+    ~Employee();
+    Employee(const Employee &other);
 
     class KnownProgrammingLanguages {
     private:
@@ -63,13 +43,11 @@ public:
         void removeLanguage(const string &language);
         void showLanguagesAlphabetic() const;
         bool containsString(const string &str) const;
-        bool operator()(const string &a, const string &b) const {
-            return a.length() > b.length();
-        }
+        bool operator()(const string &a, const string &b) const;
     };
 
     KnownProgrammingLanguages programmingLanguages;
-
+    void show() const final override;
     Employee &operator=(const Employee &other);
     Project *operator[](int index);
     friend ostream &operator<<(ostream &os, const Employee &employee);

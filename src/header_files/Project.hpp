@@ -18,9 +18,7 @@ public:
     string getName() const { return name; }
     int getProjectId() const { return projectId; }
     string getDescription() const { return description; }
-    bool operator==(const string &projectName) const {
-        return this->name == projectName;
-    }
+    bool operator==(const string &projectName) const { return this->name == projectName; }
 };
 
 #endif

@@ -131,8 +131,6 @@ int main() {
         case 22:
             running = false;
             break;
-        case 23:
-            delete people[0];
         default:
             cout << "Niepoprawny wybor!" << endl;
             break;
