@@ -3,7 +3,9 @@
 void EmployeeService::createEmployee(vector<Person *> &people, int id, bool withProject) {
     int age, workedHours;
     double salaryPerHour;
-    string name, firstName, lastName, street_address, city, postal_code, departmentName, projectName, projectDescription;
+    string name, firstName, lastName, departmentName, projectName, projectDescription;
+    Address* address;
+    Project* newProject;
 
     cout << "Podaj imie: ";
     cin >> firstName;
@@ -16,27 +18,13 @@ void EmployeeService::createEmployee(vector<Person *> &people, int id, bool with
     cin >> workedHours;
     cout << "Podaj stawke godzinowa: ";
     cin >> salaryPerHour;
-    cout << "Podaj adres:\n";
-    cout << "a) Ulica: ";
-    cin >> street_address;
-    cout << "b) Miasto: ";
-    cin >> city;
-    cout << "c) Kod pocztowy: ";
-    cin >> postal_code;
+    cin >> address;
     cout << "Podaj nazwe oddzialu: ";
     cin >> departmentName;
-
-    Address *address = new Address(street_address, city, postal_code);
     Department *department = new Department(departmentName, (int)people.size());
 
     if (withProject) {
-        cout << "Podaj projekt: " << endl;
-        cout << "a) Nazwa: ";
-        cin >> projectName;
-        cout << "b) Opis: ";
-        cin >> projectDescription;
-
-        Project *newProject = new Project(projectName, 1, projectDescription);
+        cin >> newProject;
         EmployeeInitializationDataWithProject data(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, {newProject});
         people.push_back(new Employee(data));
     } else {

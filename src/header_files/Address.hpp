@@ -14,10 +14,11 @@ private:
 
 public:
     Address(string streetAddress, string city, string postalCode) : streetAddress(streetAddress), city(city), postalCode(postalCode) {}
-    ~Address() { cout << "Adres zostal usuniety" << endl; }
+    ~Address();
     string getCity() const { return city; }
     string getStreetAddress() const { return streetAddress; }
     string getPostalCode() const { return postalCode; }
+    friend istream &operator>>(istream &is, Address *&address);
 };
 
 #endif

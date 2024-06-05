@@ -3,6 +3,7 @@
 void BossService::createBoss(vector<Person *> &people, int id) {
     int age;
     string name, firstName, lastName, street_address, city, postal_code, title;
+    Address* address;
 
     cout << "Podaj imie: ";
     cin >> firstName;
@@ -13,15 +14,7 @@ void BossService::createBoss(vector<Person *> &people, int id) {
     cin >> age;
     cout << "Podaj tytul (pozycje) szefa: ";
     cin >> title;
-    cout << "Podaj adres:\n";
-    cout << "a) Ulica: ";
-    cin >> street_address;
-    cout << "b) Miasto: ";
-    cin >> city;
-    cout << "c) Kod pocztowy: ";
-    cin >> postal_code;
-
-    Address *address = new Address(street_address, city, postal_code);
+    cin >> address;
 
     BossInitializationData data(id, name, age, firstName, lastName, title, address);
     people.push_back(new Boss(data));

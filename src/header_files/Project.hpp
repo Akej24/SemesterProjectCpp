@@ -3,6 +3,7 @@
 
 #include <functional>
 #include <string>
+#include <iostream>
 
 using namespace std;
 
@@ -14,11 +15,12 @@ private:
 
 public:
     Project(string name, int projectId, string description) : name(name), projectId(projectId), description(description) {}
-    ~Project() { cout << "Projekt o id: " << projectId << ", nazwie: " << name << " zostal usuniety" << endl; }
+    ~Project();
     string getName() const { return name; }
     int getProjectId() const { return projectId; }
     string getDescription() const { return description; }
-    bool operator==(const string &projectName) const { return this->name == projectName; }
+    bool operator==(const string &projectName) const;
+    friend istream &operator>>(istream &is, Project *&project);
 };
 
 #endif
