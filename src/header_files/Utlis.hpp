@@ -5,8 +5,6 @@
 
 using namespace std;
 
-string capitalizeFirstLetter(const string &s);
-
 class Utils final {
 private:
     Utils();

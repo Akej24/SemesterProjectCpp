@@ -8,50 +8,27 @@ Employee::Employee(EmployeeInitializationData data) {
     tie(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department) = data;
 }
 
-void Employee::deleteEmployee() {
-    delete this;
+void Employee::addProject(Project &project) {
+    projects.push_back(&project);
 }
 
-void Employee::addProject(Project *project) {
-    if (projects == nullptr) {
-        projects = new Project *[2];
-        projects[0] = project;
-        projects[1] = nullptr;
-    } else {
-        int newSize = 0;
-        while (projects[newSize] != nullptr)
-            newSize++;
-        newSize++;
-        Project **newProjects = new Project *[newSize + 1];
-        for (int i = 0; i < newSize - 1; ++i)
-            newProjects[i] = projects[i];
-        newProjects[newSize - 1] = project;
-        newProjects[newSize] = nullptr;
-        delete[] projects;
-        projects = newProjects;
-    }
+ProjectMatcher deleteIfEquals(const string &projectName) {
+    return [=](const Project *p) {
+        if (p && *p == projectName) {
+            delete p;
+            return true;
+        }
+        return false;
+    };
 }
 
-void Employee::deleteProject(Project *project) {
-    if (projects == nullptr)
-        return;
-
-    int foundProjectIndex = 0;
-    while (projects[foundProjectIndex] != nullptr && projects[foundProjectIndex] != project)
-        ++foundProjectIndex;
-
-    if (projects[foundProjectIndex] == nullptr)
-        return;
-
-    delete projects[foundProjectIndex];
-    for (int i = foundProjectIndex; projects[i] != nullptr; i++) {
-        projects[i] = projects[i + 1];
-    }
-
-    if (projects[0] == nullptr) {
-        delete[] projects;
-        projects = nullptr;
-    }
+void Employee::deleteProject(string projectName) {
+    projects.erase(
+        remove_if(
+            projects.begin(),
+            projects.end(),
+            deleteIfEquals(projectName)),
+        projects.end());
 }
 
 double Employee::calculateSalary() const {
@@ -62,12 +39,7 @@ double Employee::calculateSalary() const {
 }
 
 int Employee::countProjects() const {
-    if (projects == nullptr)
-        return 0;
-    int projectCount = 0;
-    while (projects[projectCount] != nullptr)
-        projectCount++;
-    return projectCount;
+    return projects.size();
 }
 
 void Employee::presentEmployee() {
@@ -75,21 +47,26 @@ void Employee::presentEmployee() {
          << " has " << age << " years old and works in department " << department->getName() << endl;
 }
 
-Employee& Employee::operator=(const Employee& other) {
+Employee &Employee::operator=(const Employee &other) {
     if (this == &other)
         return *this;
     Person::operator=(other);
     workedHours = other.workedHours;
     salaryPerHour = other.salaryPerHour;
     hasRaise = other.hasRaise;
+    department = other.department;
     return *this;
 }
 
-Employee* Employee::operator[](int index) {
-    return this;
+Project* Employee::operator[](int index) {
+    if(index > projects.size()) {
+        cout << "Index poza zasiegiem" << endl; 
+        return projects[0];
+    }
+    return projects[index];
 }
 
-ostream& operator<<(ostream& os, const Employee& employee) {
+ostream &operator<<(ostream &os, const Employee &employee) {
     os << "ID: " << employee.id << "\n";
     os << "Imie: " << employee.name << "\n";
     os << "Wiek: " << employee.age << "\n";
@@ -102,28 +79,34 @@ ostream& operator<<(ostream& os, const Employee& employee) {
     return os;
 }
 
-istream& operator>>(istream& is, Employee& employee) {
+istream &operator>>(istream &is, Employee &employee) {
     is >> employee.id >> employee.name >> employee.age >> employee.firstName >> employee.lastName >> employee.workedHours >> employee.salaryPerHour;
     return is;
 }
 
 void Employee::KnownProgrammingLanguages::addLanguage(const string &language) {
-    languages.push_back(language);
+    languages.insert(language);
 }
 
 void Employee::KnownProgrammingLanguages::removeLanguage(const string &language) {
-    auto it = find(languages.begin(), languages.end(), language); 
-    if (it != languages.end())
-        languages.erase(it); 
+    languages.erase(language);
 }
 
-void Employee::KnownProgrammingLanguages::showLanguages() const {
-    cout << "Known Programming Languages: ";
-    for (const auto &lang : languages)
-        cout << lang << ", ";
+struct AlphabeticLanguagesComparator {
+    bool operator()(const string& a, const string& b) const {
+        return a < b;
+    }
+};
+
+void Employee::KnownProgrammingLanguages::showLanguagesAlphabetic() const {
+    vector<string> languagesVector(languages.begin(), languages.end());
+    sort(languagesVector.begin(), languagesVector.end(), AlphabeticLanguagesComparator());
+    
+    cout << "Znane jezyki programowania alfabetycznie: ";
+    copy(languagesVector.begin(), languagesVector.end(), ostream_iterator<string>(cout, " "));
     cout << endl;
 }
 
-bool Employee::KnownProgrammingLanguages::containsString(const string &str) const { 
-    return find(languages.begin(), languages.end(), str) != languages.end(); 
+bool Employee::KnownProgrammingLanguages::containsString(const string &str) const {
+    return find(languages.begin(), languages.end(), str) != languages.end();
 }

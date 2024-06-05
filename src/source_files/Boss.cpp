@@ -4,10 +4,6 @@ Boss::Boss(BossInitializationData data) {
     tie(id, name, age, firstName, lastName, title, address) = data;
 }
 
-void Boss::deleteBoss() {
-    delete this;
-}
-
 void Boss::giveRaise(Employee *employee) {
     employee->setRaise(true);
 }
@@ -18,10 +14,6 @@ Boss& Boss::operator=(const Boss& other) {
     Boss::operator=(other);
     title = other.title;
     return *this;
-}
-
-Boss* Boss::operator[](int index) {
-    return this;
 }
 
 ostream& operator<<(ostream& os, const Boss& boss) {

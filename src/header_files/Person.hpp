@@ -18,10 +18,9 @@ protected:
     Address *address;
 
 public:
+    virtual ~Person() = default; // if not definied than 'delete people[0]; would not call matching type (e.g. when deleting person who is employee will not call employee destructor)
     virtual void show() const = 0;
     void updateAddress(string street_address, string city, string postal_code);
-    virtual ~Person() = default;
-
     int getId() const { return id; }
     string getName() const { return name; }
     int getAge() const { return age; }

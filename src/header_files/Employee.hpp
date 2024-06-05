@@ -5,16 +5,19 @@
 #include "Person.hpp"
 #include "Project.hpp"
 #include "Utlis.hpp"
-#include <algorithm>
 #include <iostream>
+#include <set>
 #include <string>
 #include <tuple>
 #include <vector>
+#include <algorithm>
+#include <iterator>
 
 using namespace std;
 
-using EmployeeInitializationDataWithProject = tuple<int, string, int, string, string, int, double, Address *, Department *, Project **>;
+using EmployeeInitializationDataWithProject = tuple<int, string, int, string, string, int, double, Address *, Department *, vector<Project *>>;
 using EmployeeInitializationData = tuple<int, string, int, string, string, int, double, Address *, Department *>;
+using ProjectMatcher = function<bool(const Project *)>;
 
 class Employee final : public Person {
 private:
@@ -22,22 +25,22 @@ private:
     double salaryPerHour;
     bool hasRaise = false;
     Department *department;
-    Project **projects;
+    vector<Project *> projects;
 
 public:
     Employee(EmployeeInitializationDataWithProject initializationDataWithProject);
     Employee(EmployeeInitializationData initializationData);
-
-    Employee(const Employee &other) : Person(other), workedHours(other.workedHours), salaryPerHour(other.salaryPerHour), hasRaise(other.hasRaise), department(other.department) {
-        if (other.projects) {
-            int numProjects = countProjects();
-            projects = new Project *[numProjects];
-            for (int i = 0; i < numProjects; ++i)
-                projects[i] = other.projects[i];
-        } else
-            projects = nullptr;
+    ~Employee() {
+        delete department;
+        for (auto project : projects)
+            delete project;
+        cout << "Zostalem usuniety jako pracownik" << endl;
     }
-
+    Employee(const Employee &other) : Person(other), workedHours(other.workedHours), salaryPerHour(other.salaryPerHour), hasRaise(other.hasRaise), department(other.department) {
+        projects.reserve(other.projects.size());
+        for (const auto &project : other.projects)
+            projects.emplace_back(project);
+    }
     void show() const final override {
         cout << "ID: " << id << "\n";
         cout << "Imie: " << name << "\n";
@@ -52,35 +55,34 @@ public:
 
     class KnownProgrammingLanguages {
     private:
-        vector<string> languages;
+        set<string> languages;
 
     public:
         explicit KnownProgrammingLanguages() {}
         void addLanguage(const string &language);
         void removeLanguage(const string &language);
-        void showLanguages() const;    
+        void showLanguagesAlphabetic() const;
         bool containsString(const string &str) const;
+        bool operator()(const string &a, const string &b) const {
+            return a.length() > b.length();
+        }
     };
 
     KnownProgrammingLanguages programmingLanguages;
 
     Employee &operator=(const Employee &other);
-    Employee *operator[](int index);
+    Project *operator[](int index);
     friend ostream &operator<<(ostream &os, const Employee &employee);
     friend istream &operator>>(istream &is, Employee &employee);
-
-    void deleteEmployee();
-    void addProject(Project *project);
-    void deleteProject(Project *project);
-
+    void addProject(Project &project);
+    void deleteProject(string projectName);
     void presentEmployee();
     double calculateSalary() const;
     int countProjects() const;
-
     int getWorkedHours() const { return workedHours; }
     double getSalaryPerHour() const { return salaryPerHour; }
     Department getDepartment() const { return *department; }
-    Project **getProjects() const { return projects; }
+    vector<Project *> getProjects() const { return projects; }
     void setRaise(bool hasRaise) { this->hasRaise = hasRaise; }
 };
 

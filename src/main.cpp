@@ -24,6 +24,7 @@ int main() {
     auto& personService = PersonService::getInstance();
     auto& employeeService = EmployeeService::getInstance();
     auto& bossService = BossService::getInstance();
+    auto exampleCompany = new ExampleCompany();
 
     while (running) {
         cout
@@ -43,7 +44,7 @@ int main() {
             << "[PRACOWNICY - JEZYKI]\n"
             << "11. Dodaj jezyk pracownikowi\n"
             << "12. Usun jezyk pracownikowi\n"
-            << "13. Pokaz jezyki pracownika\n"
+            << "13. Pokaz jezyki pracownika alfabetycznie\n"
             << "\n"
             << "[SZEFOWIE]\n"
             << "14. Stworz szefa\n"
@@ -125,11 +126,13 @@ int main() {
             Records::extractAttributesFromRecords(records, recordsSize);
             break;
         case 21:
-            ExampleCompany::example();
+            exampleCompany->example();
             break;
         case 22:
             running = false;
             break;
+        case 23:
+            delete people[0];
         default:
             cout << "Niepoprawny wybor!" << endl;
             break;

@@ -31,7 +31,7 @@ void BossService::deleteBossFromVector(vector<Person *> &people) {
     int personIndex = ServiceHelper::handleGetBossIndex(people);
     if (personIndex == -1)
         return;
-    dynamic_cast<Boss *>(people[personIndex])->deleteBoss();
+    delete dynamic_cast<Boss *>(people[personIndex]);
     people.erase(people.begin() + personIndex);
 }
 

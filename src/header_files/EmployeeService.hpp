@@ -19,6 +19,7 @@ private:
     EmployeeService() { }
     EmployeeService(const EmployeeService&) = delete;
     EmployeeService& operator=(const EmployeeService&) = delete;
+    
 public:
     static EmployeeService& getInstance() {
         static EmployeeService instance;
@@ -29,12 +30,9 @@ public:
     void addProjectToEmployee(const vector<Person *> &employees);
     void deleteEmployeeProject(const vector<Person *> &employees);
     void cloneEmployee(vector<Person *> &employees);
-
     void calculateEmployeeSalary(const vector<Person *> &employees);
     void showEmployeeProjectsAmount(const vector<Person *> &employees);
-
     void generateEmployeePresentation(const vector<Person *> &employees);
-
     void addLanguageToEmployee(const vector<Person *> &employees);
     void removeLanguageFromEmployee(const vector<Person *> &employees);
     void showEmployeeLanguages(const vector<Person *> &employees);
