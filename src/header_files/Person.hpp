@@ -22,6 +22,7 @@ public:
     virtual void show() const = 0;
     virtual string generateSentence() const = 0;
     void updateAddress(string street_address, string city, string postal_code);
+    Person &operator=(const Person &other);
     int getId() const { return id; }
     string getName() const { return name; }
     int getAge() const { return age; }

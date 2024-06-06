@@ -85,11 +85,18 @@ void Employee::presentEmployee() {
 Employee &Employee::operator=(const Employee &other) {
     if (this == &other)
         return *this;
+    delete department;
+    for (auto &project : projects) delete project;
+    projects.clear();
+
     Person::operator=(other);
     workedHours = other.workedHours;
     salaryPerHour = other.salaryPerHour;
     hasRaise = other.hasRaise;
-    department = other.department;
+    department = new Department(*other.department);
+    projects.reserve(other.projects.size());
+    for (const auto &project : other.projects)
+        projects.push_back(new Project(*project));
     return *this;
 }
 
