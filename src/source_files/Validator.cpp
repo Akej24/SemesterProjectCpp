@@ -1,13 +1,11 @@
 #include "../header_files/Validator.hpp"
 
-bool Validator::isEmployee(Person* person) {
-    if (dynamic_cast<Employee*>(person)) return true;
-    else return false;
+bool Validator::isEmployee(const shared_ptr<Person>& person) {
+    return dynamic_cast<Employee*>(person.get()) != nullptr;
 }
 
-bool Validator::isBoss(Person* person) {
-    if (dynamic_cast<Boss*>(person)) return true;
-    else return false;
+bool Validator::isBoss(const shared_ptr<Person>& person) {
+    return dynamic_cast<Boss*>(person.get()) != nullptr;
 }
 
 bool Validator::checkValidPersonIndex(int personIndex, int peopleSize) {
@@ -19,7 +17,7 @@ bool Validator::checkValidPersonIndex(int personIndex, int peopleSize) {
     }
 }
 
-bool Validator::checkAnyPersonExists(const vector<Person *> &people) {
+bool Validator::checkAnyPersonExists(const vector<shared_ptr<Person>>& people) {
     if (people.empty()) {
         cout << "Brak ludzi do wyswietlenia!" << endl;
         return false;

@@ -1,7 +1,7 @@
 #include "../header_files/Boss.hpp"
 
 Boss::Boss(BossInitializationData data) {
-    tie(id, name, age, firstName, lastName, title, address) = data;
+    tie(id, name, age, firstName, lastName, title, address) = move(data);
 }
 
 Boss::~Boss() {
@@ -22,7 +22,7 @@ string Boss::generateSentence() const {
     return "Boss " + firstName + " " + Utils::capitalizeFirstLetter(lastName) + " has title " + title;
 }
 
-void Boss::giveRaise(Employee *employee) {
+void Boss::giveRaise(shared_ptr<Employee> employee) {
     employee->setRaise(true);
 }
 

@@ -1,11 +1,11 @@
 #include "../header_files/EmployeeService.hpp"
 
-void EmployeeService::createEmployee(vector<Person *> &people, int id, bool withProject) {
+void EmployeeService::createEmployee(vector<shared_ptr<Person>>& people, int id, bool withProject) {
     int age, workedHours;
     double salaryPerHour;
     string name, firstName, lastName, departmentName, projectName, projectDescription;
-    Address* address;
-    Project* newProject;
+    unique_ptr<Address> address;
+    unique_ptr<Project> newProject;
 
     cout << "Podaj imie: ";
     cin >> firstName;
@@ -21,27 +21,26 @@ void EmployeeService::createEmployee(vector<Person *> &people, int id, bool with
     cin >> address;
     cout << "Podaj nazwe oddzialu: ";
     cin >> departmentName;
-    Department *department = new Department(departmentName, (int)people.size());
+    unique_ptr<Department> department = make_unique<Department>(departmentName, static_cast<int>(people.size()));
 
     if (withProject) {
         cin >> newProject;
-        EmployeeInitializationDataWithProject data(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, {newProject});
-        people.push_back(new Employee(data));
+        EmployeeInitializationDataWithProject data(id, name, age, firstName, lastName, workedHours, salaryPerHour, move(address), move(department), vector<unique_ptr<Project>>{move(newProject)});
+        people.push_back(make_shared<Employee>(data));
     } else {
-        EmployeeInitializationData data(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department);
-        people.push_back(new Employee(data));
+        EmployeeInitializationData data(id, name, age, firstName, lastName, workedHours, salaryPerHour, move(address), move(department));
+        people.push_back(make_shared<Employee>(data));
     }
 }
 
-void EmployeeService::deleteEmployeeFromVector(vector<Person *> &people) {
+void EmployeeService::deleteEmployeeFromVector(vector<shared_ptr<Person>>& people) {
     int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
     if (personIndex == -1)
         return;
-    delete dynamic_cast<Employee *>(people[personIndex]);
     people.erase(people.begin() + personIndex);
 }
 
-void EmployeeService::addProjectToEmployee(const vector<Person *> &people) {
+void EmployeeService::addProjectToEmployee(const vector<shared_ptr<Person>>& people) {
     int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
     if (personIndex == -1)
         return;
@@ -52,12 +51,11 @@ void EmployeeService::addProjectToEmployee(const vector<Person *> &people) {
     cout << "Podaj opis projektu: ";
     cin >> projectDescription;
 
-    auto *employee = dynamic_cast<Employee *>(people[personIndex]);
-    Project *newProject = new Project{projectName, employee->countProjects() + 1, projectDescription};
-    employee->addProject(*newProject);
+    auto employee = dynamic_pointer_cast<Employee>(people[personIndex]);
+    employee->addProject(make_unique<Project>(projectName, employee->countProjects() + 1, projectDescription));
 }
 
-void EmployeeService::deleteEmployeeProject(const vector<Person *> &people) {
+void EmployeeService::deleteEmployeeProject(const vector<shared_ptr<Person>>& people) {
     int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
     if (personIndex == -1)
         return;
@@ -66,46 +64,46 @@ void EmployeeService::deleteEmployeeProject(const vector<Person *> &people) {
     cout << "Podaj nazwe projektu do usuniecia: ";
     cin >> projectName;
 
-    auto *employee = dynamic_cast<Employee *>(people[personIndex]);
+    auto employee = dynamic_pointer_cast<Employee>(people[personIndex]);
     employee->deleteProject(projectName);
 }
 
-void EmployeeService::calculateEmployeeSalary(const vector<Person *> &people) {
+void EmployeeService::calculateEmployeeSalary(const vector<shared_ptr<Person>>& people) {
     int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
     if (personIndex == -1)
         return;
-    double salary = dynamic_cast<Employee *>(people[personIndex])->calculateSalary();
+    double salary = dynamic_pointer_cast<Employee>(people[personIndex])->calculateSalary();
     cout << "Zarobki pracownika: " << salary << endl;
 }
 
-void EmployeeService::showEmployeeProjectsAmount(const vector<Person *> &people) {
+void EmployeeService::showEmployeeProjectsAmount(const vector<shared_ptr<Person>>& people) {
     int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
     if (personIndex == -1)
         return;
-    int projectAmount = dynamic_cast<Employee *>(people[personIndex])->countProjects();
+    int projectAmount = dynamic_pointer_cast<Employee>(people[personIndex])->countProjects();
     cout << "Ilosc projektow pracownika: " << projectAmount << endl;
 }
 
-void EmployeeService::generateEmployeePresentation(const vector<Person *> &people) {
+void EmployeeService::generateEmployeePresentation(const vector<shared_ptr<Person>>& people) {
     int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
     if (personIndex == -1)
         return;
-    dynamic_cast<Employee *>(people[personIndex])->presentEmployee();
+    dynamic_pointer_cast<Employee>(people[personIndex])->presentEmployee();
 }
 
-void EmployeeService::cloneEmployee(vector<Person *> &people) {
+void EmployeeService::cloneEmployee(vector<shared_ptr<Person>>& people) {
     int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
     if (personIndex == -1)
         return;
-    auto *employee = dynamic_cast<Employee *>(people[personIndex]);
-    people.push_back(new Employee(*employee));
+    auto employee = dynamic_pointer_cast<Employee>(people[personIndex]);
+    people.push_back(make_shared<Employee>(*employee));
 }
 
-void EmployeeService::addLanguageToEmployee(const vector<Person *> &people) {
+void EmployeeService::addLanguageToEmployee(const vector<shared_ptr<Person>>& people) {
     int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
     if (personIndex == -1)
         return;
-    auto *employee = dynamic_cast<Employee *>(people[personIndex]);
+    auto employee = dynamic_pointer_cast<Employee>(people[personIndex]);
 
     string language;
     cout << "Enter programming language to add: ";
@@ -113,11 +111,11 @@ void EmployeeService::addLanguageToEmployee(const vector<Person *> &people) {
     employee->programmingLanguages.addLanguage(language);
 }
 
-void EmployeeService::removeLanguageFromEmployee(const vector<Person *> &people) {
+void EmployeeService::removeLanguageFromEmployee(const vector<shared_ptr<Person>>& people) {
     int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
     if (personIndex == -1)
         return;
-    auto *employee = dynamic_cast<Employee *>(people[personIndex]);
+    auto employee = dynamic_pointer_cast<Employee>(people[personIndex]);
 
     string language;
     cout << "Enter programming language to remove: ";
@@ -126,11 +124,11 @@ void EmployeeService::removeLanguageFromEmployee(const vector<Person *> &people)
         employee->programmingLanguages.removeLanguage(language);
 }
 
-void EmployeeService::showEmployeeLanguages(const vector<Person *> &people) {
+void EmployeeService::showEmployeeLanguages(const vector<shared_ptr<Person>>& people) {
     int personIndex = ServiceHelper::handleGetEmployeeIndex(people);
     if (personIndex == -1)
         return;
-    auto *employee = dynamic_cast<Employee *>(people[personIndex]);
+    auto employee = dynamic_pointer_cast<Employee>(people[personIndex]);
 
     employee->programmingLanguages.showLanguagesAlphabetic();
 }

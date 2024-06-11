@@ -1,13 +1,13 @@
 #include "../header_files/PersonService.hpp"
 
-void PersonService::showPersonInfo(const vector<Person *> &people) {
+void PersonService::showPersonInfo(const vector<shared_ptr<Person>> &people) {
     int personIndex = ServiceHelper::handleGetPersonIndex(people);
     if (personIndex == -1)
         return;
     people[personIndex]->show();  //polymporphism
 }
 
-void PersonService::savePersonToRecords(const vector<Person *> &people, string *records) {
+void PersonService::savePersonToRecords(const vector<shared_ptr<Person>> &people, string *records) {
     int personIndex = ServiceHelper::handleGetPersonIndex(people);
     if (personIndex == -1)
         return;
@@ -19,7 +19,7 @@ void PersonService::savePersonToRecords(const vector<Person *> &people, string *
             cout << "Rekord " << i << ": " << records[i] << endl;
 }
 
-void PersonService::updateAddress(const vector<Person *> &people) {
+void PersonService::updateAddress(const vector<shared_ptr<Person>> &people) {
     int personIndex = ServiceHelper::handleGetPersonIndex(people);
     if (personIndex == -1)
         return;

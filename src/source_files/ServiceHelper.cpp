@@ -1,6 +1,6 @@
 #include "../header_files/ServiceHelper.hpp"
 
-int ServiceHelper::handleGetEmployeeIndex(const vector<Person *> &people) {
+int ServiceHelper::handleGetEmployeeIndex(const vector<shared_ptr<Person>>& people) {
     if (!Validator::checkAnyPersonExists)
         return -1;
 
@@ -12,7 +12,7 @@ int ServiceHelper::handleGetEmployeeIndex(const vector<Person *> &people) {
     return employeeIndex;
 }
 
-int ServiceHelper::handleGetBossIndex(const vector<Person *> &people) {
+int ServiceHelper::handleGetBossIndex(const vector<shared_ptr<Person>>& people) {
     if (!Validator::checkAnyPersonExists)
         return -1;
 
@@ -24,7 +24,7 @@ int ServiceHelper::handleGetBossIndex(const vector<Person *> &people) {
     return bossIndex;
 }
 
-int ServiceHelper::handleGetPersonIndex(const vector<Person *> &people) {
+int ServiceHelper::handleGetPersonIndex(const vector<shared_ptr<Person>>& people) {
     if (!Validator::checkAnyPersonExists)
         return -1;
 

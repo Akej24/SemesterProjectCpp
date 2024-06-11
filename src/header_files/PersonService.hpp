@@ -6,11 +6,12 @@
 #include "Person.hpp"
 #include "Records.hpp"
 #include "ServiceHelper.hpp"
-#include "Utlis.hpp"
+#include "Utils.hpp"
 #include "Validator.hpp"
 #include <iostream>
 #include <string>
 #include <vector>
+#include <memory>
 
 using namespace std;
 
@@ -24,9 +25,9 @@ public:
         static PersonService instance;
         return instance;
     }
-    void showPersonInfo(const vector<Person *> &people);
-    void savePersonToRecords(const vector<Person *> &people, string *records);
-    void updateAddress(const vector<Person *> &people);
+    void showPersonInfo(const vector<shared_ptr<Person>>& people);
+    void savePersonToRecords(const vector<shared_ptr<Person>>& people, string *records);
+    void updateAddress(const vector<shared_ptr<Person>>& people);
 };
 
 #endif

@@ -19,7 +19,7 @@ int main() {
 
     const int recordsSize = recordsSizeDistribution(eng);
     string *records = new string[recordsSize];
-    vector<Person *> people;
+    vector<shared_ptr<Person>> people;
 
     auto& personService = PersonService::getInstance();
     auto& employeeService = EmployeeService::getInstance();
