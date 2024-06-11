@@ -23,18 +23,18 @@ string Records::extractTitle(const string &sentence) {
     return sentence.substr(start, sentence.length());
 }
 
-void Records::extractAttributesFromRecords(const string *records, int size) {
+void Records::extractAttributesFromRecords(const shared_ptr<vector<string>> records, int size) {
     for (int i = 0; i < size; ++i) {
-        if (!records[i].empty()) {
+        if (!records->at(i).empty()) {
 
             cout << "Wyodrebnione dane: " << endl;
-            cout << "- firstName: " << extractFirstName(records[i]) << endl;
-            cout << "- lastName: " << extractLastName(records[i]) << endl;
+            cout << "- firstName: " << extractFirstName(records->at(i)) << endl;
+            cout << "- lastName: " << extractLastName(records->at(i)) << endl;
 
-            if (records[i].find("Employee") != string::npos)
-                cout << "- projectsAmount: " << extractProjectsAmount(records[i]) << endl;
+            if (records->at(i).find("Employee") != string::npos)
+                cout << "- projectsAmount: " << extractProjectsAmount(records->at(i)) << endl;
             else
-                cout << "- title: " << extractTitle(records[i]) << endl;
+                cout << "- title: " << extractTitle(records->at(i)) << endl;
         }
     }
 }

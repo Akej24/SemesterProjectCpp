@@ -19,7 +19,7 @@ int main() {
     uniform_int_distribution<int> recordsSizeDistribution(50, 100);
 
     const int recordsSize = recordsSizeDistribution(eng);
-    string *records = new string[recordsSize];
+    shared_ptr<vector<string>> records = make_shared<vector<string>>(recordsSize);
     vector<shared_ptr<Person>> people;
 
     auto& personService = PersonService::getInstance();

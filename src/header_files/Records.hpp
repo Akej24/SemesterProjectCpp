@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <memory>
 
 using namespace std;
 
@@ -16,7 +17,7 @@ public:
     static string extractLastName(const string &sentence);
     static string extractTitle(const string &sentence);
     static int extractProjectsAmount(const string &sentence);
-    static void extractAttributesFromRecords(const string *records, int size);
+    static void extractAttributesFromRecords(const shared_ptr<vector<string>> records, int size);
 };
 
 #endif

@@ -7,16 +7,16 @@ void PersonService::showPersonInfo(const vector<shared_ptr<Person>> &people) {
     people[personIndex].get()->show();  //polymporphism
 }
 
-void PersonService::savePersonToRecords(const vector<shared_ptr<Person>> &people, string *records) {
+void PersonService::savePersonToRecords(const vector<shared_ptr<Person>> &people, shared_ptr<vector<string>> records) {
     int personIndex = ServiceHelper::handleGetPersonIndex(people);
     if (personIndex == -1)
         return;
 
-    records[personIndex] = people[personIndex].get()->generateSentence(); //polymporphism
+    records->at(personIndex) = people[personIndex].get()->generateSentence(); //polymporphism
     cout << "Pomyslnie zapisano, aktualne rekordy: " << endl;
     for (int i = 0; i < people.size(); i++)
-        if (!records[i].empty())
-            cout << "Rekord " << i << ": " << records[i] << endl;
+        if (!records->at(i).empty())
+            cout << "Rekord " << i << ": " << records->at(i) << endl;
 }
 
 void PersonService::updateAddress(const vector<shared_ptr<Person>> &people) {

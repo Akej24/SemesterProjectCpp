@@ -26,7 +26,7 @@ public:
         return instance;
     }
     void showPersonInfo(const vector<shared_ptr<Person>> &people);
-    void savePersonToRecords(const vector<shared_ptr<Person>> &people, string *records);
+    void savePersonToRecords(const vector<shared_ptr<Person>> &people, shared_ptr<vector<string>> records);
     void updateAddress(const vector<shared_ptr<Person>> &people);
 };
 
