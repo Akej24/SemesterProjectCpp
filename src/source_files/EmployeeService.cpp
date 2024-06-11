@@ -4,8 +4,8 @@ void EmployeeService::createEmployee(vector<shared_ptr<Person>> &people, int id,
     int age, workedHours;
     double salaryPerHour;
     string name, firstName, lastName, departmentName, projectName, projectDescription;
-    Address* address;
-    Project* newProject;
+    unique_ptr<Address> address;
+    unique_ptr<Project> newProject;
 
     cout << "Podaj imie: ";
     cin >> firstName;
@@ -21,7 +21,7 @@ void EmployeeService::createEmployee(vector<shared_ptr<Person>> &people, int id,
     cin >> address;
     cout << "Podaj nazwe oddzialu: ";
     cin >> departmentName;
-    Department *department = new Department(departmentName, (int)people.size());
+    unique_ptr<Department> department = make_unique<Department>(departmentName, static_cast<int>(people.size()));
 
     if (withProject) {
         cin >> newProject;

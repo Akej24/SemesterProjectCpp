@@ -7,7 +7,7 @@ using namespace std;
 
 class Utils final {
 private:
-    Utils();
+    Utils() = delete;
 
 public:
     static string capitalizeFirstLetter(const string &word);

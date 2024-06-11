@@ -1,17 +1,14 @@
 #include "../header_files/Employee.hpp"
 
 Employee::Employee(EmployeeInitializationDataWithProject data) {
-    tie(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, projects) = data;
+    tie(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, projects) = move(data);
 }
 
 Employee::Employee(EmployeeInitializationData data) {
-    tie(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department) = data;
+    tie(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department) = move(data);
 }
 
 Employee::~Employee() {
-    delete department;
-    for (auto project : projects)
-        delete project;
     cout << "Zostalem usuniety jako pracownik" << endl;
 }
 
@@ -37,14 +34,14 @@ string Employee::generateSentence() const {
     return "Employee " + firstName + " " + Utils::capitalizeFirstLetter(lastName) + " has " + to_string(this->countProjects()) + " projects.";
 }
 
-Employee::Employee(const Employee &other) : Person(other), workedHours(other.workedHours), salaryPerHour(other.salaryPerHour), hasRaise(other.hasRaise), department(other.department) {
+Employee::Employee(const Employee& other) : Person(other), workedHours(other.workedHours), salaryPerHour(other.salaryPerHour), hasRaise(other.hasRaise), department(make_unique<Department>(other.department)) {
     projects.reserve(other.projects.size());
     for (const auto &project : other.projects)
         projects.emplace_back(project);
 }
 
-void Employee::addProject(Project &project) {
-    projects.push_back(&project);
+void Employee::addProject(unique_ptr<Project> project) {
+    projects.push_back(project);
 }
 
 ProjectMatcher deleteIfEquals(const string &projectName) {
@@ -85,27 +82,25 @@ void Employee::presentEmployee() {
 Employee &Employee::operator=(const Employee &other) {
     if (this == &other)
         return *this;
-    delete department;
-    for (auto &project : projects) delete project;
     projects.clear();
 
     Person::operator=(other);
     workedHours = other.workedHours;
     salaryPerHour = other.salaryPerHour;
     hasRaise = other.hasRaise;
-    department = new Department(*other.department);
+    department = make_unique<Department>(*other.department);
     projects.reserve(other.projects.size());
     for (const auto &project : other.projects)
-        projects.push_back(new Project(*project));
+        projects.push_back(make_unique<Project>(*project));
     return *this;
 }
 
 Project* Employee::operator[](int index) {
     if(index > projects.size()) {
         cout << "Index poza zasiegiem" << endl; 
-        return projects[0];
+        return projects[0].get();
     }
-    return projects[index];
+    return projects[index].get();
 }
 
 ostream &operator<<(ostream &os, const Employee &employee) {

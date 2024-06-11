@@ -7,7 +7,7 @@ fi
 rm -rf ./target/*
 
 # Compile app into .exe
-g++ .\src\main.cpp .\src\source_files\*.cpp -o ./target/app.exe
+g++ -std=c++17 .\src\main.cpp .\src\source_files\*.cpp -o ./target/app.exe
 
 # Run app
 ./target/app.exe

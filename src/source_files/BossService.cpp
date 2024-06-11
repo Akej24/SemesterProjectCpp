@@ -3,7 +3,7 @@
 void BossService::createBoss(vector<shared_ptr<Person>> &people, int id) {
     int age;
     string name, firstName, lastName, street_address, city, postal_code, title;
-    Address* address;
+    unique_ptr<Address> address;
 
     cout << "Podaj imie: ";
     cin >> firstName;
@@ -36,6 +36,5 @@ void BossService::giveRaise(vector<shared_ptr<Person>> &people) {
     int employeeIndex = ServiceHelper::handleGetEmployeeIndex(people);
     if (employeeIndex == -1)
         return;
-    
     dynamic_pointer_cast<Boss>(people[bossIndex]).get()->giveRaise(dynamic_pointer_cast<Employee>(people[employeeIndex]).get());
 }

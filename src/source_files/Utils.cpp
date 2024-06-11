@@ -1,4 +1,4 @@
-#include "../header_files/Utlis.hpp"
+#include "../header_files/Utils.hpp"
 
 string Utils::capitalizeFirstLetter(const string &word) {
     if (word.empty())
