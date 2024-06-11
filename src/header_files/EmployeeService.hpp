@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string_view>
 #include <vector>
+#include <memory>
 
 using namespace std;
 
@@ -25,17 +26,17 @@ public:
         static EmployeeService instance;
         return instance;
     }
-    void createEmployee(vector<Person *> &employees, int id, bool withProject);
-    void deleteEmployeeFromVector(vector<Person *> &employees);
-    void addProjectToEmployee(const vector<Person *> &employees);
-    void deleteEmployeeProject(const vector<Person *> &employees);
-    void cloneEmployee(vector<Person *> &employees);
-    void calculateEmployeeSalary(const vector<Person *> &employees);
-    void showEmployeeProjectsAmount(const vector<Person *> &employees);
-    void generateEmployeePresentation(const vector<Person *> &employees);
-    void addLanguageToEmployee(const vector<Person *> &employees);
-    void removeLanguageFromEmployee(const vector<Person *> &employees);
-    void showEmployeeLanguages(const vector<Person *> &employees);
+    void createEmployee(vector<shared_ptr<Person>> &employees, int id, bool withProject);
+    void deleteEmployeeFromVector(vector<shared_ptr<Person>> &employees);
+    void addProjectToEmployee(const vector<shared_ptr<Person>> &employees);
+    void deleteEmployeeProject(const vector<shared_ptr<Person>> &employees);
+    void cloneEmployee(vector<shared_ptr<Person>> &employees);
+    void calculateEmployeeSalary(const vector<shared_ptr<Person>> &employees);
+    void showEmployeeProjectsAmount(const vector<shared_ptr<Person>> &employees);
+    void generateEmployeePresentation(const vector<shared_ptr<Person>> &employees);
+    void addLanguageToEmployee(const vector<shared_ptr<Person>> &employees);
+    void removeLanguageFromEmployee(const vector<shared_ptr<Person>> &employees);
+    void showEmployeeLanguages(const vector<shared_ptr<Person>> &employees);
 };
 
 #endif

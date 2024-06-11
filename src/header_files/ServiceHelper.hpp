@@ -5,6 +5,7 @@
 #include "Validator.hpp"
 #include <iostream>
 #include <vector>
+#include <memory>
 
 using namespace std;
 
@@ -13,9 +14,9 @@ private:
     ServiceHelper();
     
 public:
-    static int handleGetEmployeeIndex(const vector<Person *> &people);
-    static int handleGetBossIndex(const vector<Person *> &people);
-    static int handleGetPersonIndex(const vector<Person *> &people);
+    static int handleGetEmployeeIndex(const vector<shared_ptr<Person>> &people);
+    static int handleGetBossIndex(const vector<shared_ptr<Person>> &people);
+    static int handleGetPersonIndex(const vector<shared_ptr<Person>> &people);
 };
 
 #endif

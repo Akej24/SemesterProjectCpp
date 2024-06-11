@@ -7,6 +7,7 @@
 #include "Person.hpp"
 #include "Employee.hpp"
 #include "Boss.hpp"
+#include <memory>
 
 using namespace std;
 
@@ -15,10 +16,10 @@ private:
     Validator();
 
 public:
-    static bool isEmployee(Person* person);
-    static bool isBoss(Person* person);
+    static bool isEmployee(shared_ptr<Person> person);
+    static bool isBoss(shared_ptr<Person> person);
     static bool checkValidPersonIndex(int personIndex, int peopleSize);
-    static bool checkAnyPersonExists(const vector<Person *> &people);
+    static bool checkAnyPersonExists(const vector<shared_ptr<Person>> &people);
 };
 
 #endif

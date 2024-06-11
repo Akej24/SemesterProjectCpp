@@ -11,6 +11,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <memory>
 
 using namespace std;
 
@@ -24,9 +25,9 @@ public:
         static BossService instance;
         return instance;
     }
-    void createBoss(vector<Person *> &people, int id);
-    void deleteBossFromVector(vector<Person *> &people);
-    void giveRaise(vector<Person *> &people);
+    void createBoss(vector<shared_ptr<Person>> &people, int id);
+    void deleteBossFromVector(vector<shared_ptr<Person>> &people);
+    void giveRaise(vector<shared_ptr<Person>> &people);
 };
 
 #endif
