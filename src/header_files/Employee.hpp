@@ -12,11 +12,12 @@
 #include <vector>
 #include <algorithm>
 #include <iterator>
+#include <memory>
 
 using namespace std;
 
-using EmployeeInitializationDataWithProject = tuple<int, string, int, string, string, int, double, Address *, Department *, vector<Project *>>;
-using EmployeeInitializationData = tuple<int, string, int, string, string, int, double, Address *, Department *>;
+// using EmployeeInitializationDataWithProject = tuple<int, string, int, string, string, int, double, Address *, unique_ptr<Department>, vector<Project *>>;
+// using EmployeeInitializationData = tuple<int, string, int, string, string, int, double, Address *, unique_ptr<Department>>;
 using ProjectMatcher = function<bool(const Project *)>;
 
 class Employee final : public Person {
@@ -24,12 +25,35 @@ private:
     int workedHours;
     double salaryPerHour;
     bool hasRaise = false;
-    Department *department;
+    unique_ptr<Department> department;
     vector<Project *> projects;
 
 public:
-    Employee(EmployeeInitializationDataWithProject initializationDataWithProject);
-    Employee(EmployeeInitializationData initializationData);
+    Employee(
+        int id, 
+        const string& name, 
+        int age, 
+        const string& firstName,
+        const string& lastName, 
+        int workedHours,
+        double salaryPerHour, 
+        Address *address, 
+        unique_ptr<Department> department)
+        : Person(id, name, age, firstName, lastName, address), workedHours(workedHours), salaryPerHour(salaryPerHour), department(move(department)) {}
+
+    Employee(
+        int id, 
+        const string& name, 
+        int age, 
+        const string& firstName, 
+        const string& lastName, 
+        int workedHours, 
+        double salaryPerHour, 
+        Address *address, 
+        unique_ptr<Department> department, 
+        vector<Project*> projects)
+        : Person(id, name, age, firstName, lastName, address), workedHours(workedHours), salaryPerHour(salaryPerHour), department(move(department)), projects(projects) {}
+    
     ~Employee();
     Employee(const Employee &other);
 

@@ -2,20 +2,20 @@
 
 void ExampleCompany::example() {
     array<Employee, 3> employees { //alokacja na stosie, zostana usuniete po wyjsciu ze scope'a
-        Employee(EmployeeInitializationDataWithProject(1, "John Doe", 30, "John", "Doe", 159, 22.84, 
+        Employee(1, "John Doe", 30, "John", "Doe", 159, 22.84, 
             new Address("Address1", "City1", "12-123"), 
-            new Department("Department1", 1), 
-            {new Project("TestProject1", 1, "TestOpis1")})),
+            make_unique<Department>("Department1", 1), 
+            {new Project("TestProject1", 1, "TestOpis1")}),
 
-        Employee(EmployeeInitializationDataWithProject(2, "Jane Smith", 25, "Jane", "Smith", 150, 19.43, 
+        Employee(2, "Jane Smith", 25, "Jane", "Smith", 150, 19.43, 
             new Address("Address2", "City2", "12-123"), 
-            new Department("Department2", 2),
-            {new Project("TestProject2", 2, "TestOpis2")})),
+            make_unique<Department>("Department2", 2),
+            {new Project("TestProject2", 2, "TestOpis2")}),
 
-        Employee(EmployeeInitializationDataWithProject(3, "Alice Johnson", 35, "Alice", "Johnson", 168, 28.43, 
+        Employee(3, "Alice Johnson", 35, "Alice", "Johnson", 168, 28.43, 
             new Address("Address3", "City3", "12-123"), 
-            new Department("Department3", 3),
-            {new Project("TestProject3", 3, "TestOpis3")})),
+            make_unique<Department>("Department3", 3),
+            {new Project("TestProject3", 3, "TestOpis3")}),
     };
     cout << "-------------------------------------------" << endl;
     cout << "Przyklad uzycia przeciazonego operatora []" << endl;

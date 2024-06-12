@@ -21,15 +21,16 @@ void EmployeeService::createEmployee(vector<shared_ptr<Person>> &people, int id,
     cin >> address;
     cout << "Podaj nazwe oddzialu: ";
     cin >> departmentName;
-    Department *department = new Department(departmentName, (int)people.size());
+    unique_ptr<Department> department = make_unique<Department>(departmentName, (int)people.size());
 
     if (withProject) {
         cin >> newProject;
-        EmployeeInitializationDataWithProject data(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, {newProject});
-        people.push_back(make_shared<Employee>(data));
+        vector<Project*> projects = { newProject };
+        //EmployeeInitializationDataWithProject data(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, move(department), projects);
+        people.push_back(make_shared<Employee>(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, move(department), projects));
     } else {
-        EmployeeInitializationData data(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department);
-        people.push_back(make_shared<Employee>(data));
+        //EmployeeInitializationData data(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, move(department));
+        people.push_back(make_shared<Employee>(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, move(department)));
     }
 }
 

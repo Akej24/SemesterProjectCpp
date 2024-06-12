@@ -16,8 +16,8 @@ void BossService::createBoss(vector<shared_ptr<Person>> &people, int id) {
     cin >> title;
     cin >> address;
 
-    BossInitializationData data(id, name, age, firstName, lastName, title, address);
-    people.push_back(make_shared<Boss>(data));
+    //BossInitializationData data(id, name, age, firstName, lastName, title, address);
+    people.push_back(make_shared<Boss>(id, name, age, firstName, lastName, address, title));
 }
 
 void BossService::deleteBossFromVector(vector<shared_ptr<Person>> &people) {

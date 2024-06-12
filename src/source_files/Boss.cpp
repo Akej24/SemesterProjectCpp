@@ -1,8 +1,8 @@
 #include "../header_files/Boss.hpp"
 
-Boss::Boss(BossInitializationData data) {
-    tie(id, name, age, firstName, lastName, title, address) = data;
-}
+// Boss::Boss(BossInitializationData data) {
+//     tie(id, name, age, firstName, lastName, title, address) = data;
+// }
 
 Boss::~Boss() {
     cout << "Zostalem usuniety jako szef" << endl;
