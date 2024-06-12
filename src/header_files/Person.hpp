@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <tuple>
+#include <memory>
 #include "Address.hpp"
 
 using namespace std;
@@ -15,13 +16,14 @@ protected:
     int age;
     string firstName;
     string lastName;
-    Address *address;
+    shared_ptr<Address> address;
 
 public:
     Person(int id, const string& name, int age, const string& firstName, const string& lastName, Address* address)
-            : id(id), name(name), age(age), firstName(firstName), lastName(lastName), address(address) {}
+        : id(id), name(name), age(age), firstName(firstName), lastName(lastName), address(address) {}
 
-    virtual ~Person() { delete address; }
+
+    virtual ~Person() = default;
     virtual void show() const = 0;
     virtual string generateSentence() const = 0;
     void updateAddress(string street_address, string city, string postal_code);
