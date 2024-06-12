@@ -126,9 +126,9 @@ int main() {
         case 20:
             Records::extractAttributesFromRecords(records, recordsSize);
             break;
-        // case 21:
-        //     exampleCompany->example();
-        //     break;
+        case 21:
+            exampleCompany->example();
+            break;
         case 22:
             running = false;
             break;

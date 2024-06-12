@@ -25,12 +25,11 @@ void EmployeeService::createEmployee(vector<shared_ptr<Person>> &people, int id,
 
     if (withProject) {
         cin >> newProject;
-        vector<Project*> projects = { newProject };
-        //EmployeeInitializationDataWithProject data(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, move(department), projects);
+        vector<shared_ptr<Project>> projects = { make_shared<Project>(*newProject) };
         people.push_back(make_shared<Employee>(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, move(department), projects));
     } else {
-        //EmployeeInitializationData data(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, move(department));
-        people.push_back(make_shared<Employee>(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, move(department)));
+        vector<shared_ptr<Project>> projects;
+        people.push_back(make_shared<Employee>(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, move(department), projects));
     }
 }
 

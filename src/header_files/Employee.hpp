@@ -26,7 +26,7 @@ private:
     double salaryPerHour;
     bool hasRaise = false;
     unique_ptr<Department> department;
-    vector<Project *> projects;
+    vector<shared_ptr<Project>> projects;
 
 public:
     Employee(
@@ -51,7 +51,7 @@ public:
         double salaryPerHour, 
         Address *address, 
         unique_ptr<Department> department, 
-        vector<Project*> projects)
+        vector<shared_ptr<Project>> projects)
         : Person(id, name, age, firstName, lastName, address), workedHours(workedHours), salaryPerHour(salaryPerHour), department(move(department)), projects(projects) {}
     
     ~Employee();
@@ -74,10 +74,10 @@ public:
     void show() const final override;
     string generateSentence() const final override;
     Employee &operator=(const Employee &other);
-    Project *operator[](int index);
+    shared_ptr<Project> operator[](int index);
     friend ostream &operator<<(ostream &os, const Employee &employee);
     friend istream &operator>>(istream &is, Employee &employee);
-    void addProject(Project &project);
+    void addProject(Project& project);
     void deleteProject(string projectName);
     void presentEmployee();
     double calculateSalary() const;
@@ -85,7 +85,7 @@ public:
     int getWorkedHours() const { return workedHours; }
     double getSalaryPerHour() const { return salaryPerHour; }
     Department getDepartment() const { return *department; }
-    vector<Project *> getProjects() const { return projects; }
+    vector<shared_ptr<Project>> getProjects() const { return projects; }
     void setRaise(bool hasRaise) { this->hasRaise = hasRaise; }
 };
 

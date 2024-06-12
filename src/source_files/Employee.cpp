@@ -1,16 +1,6 @@
 #include "../header_files/Employee.hpp"
 
-// Employee::Employee(EmployeeInitializationDataWithProject data) {
-//     tie(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department, projects) = move(data);
-// }
-
-// Employee::Employee(EmployeeInitializationData data) {
-//     tie(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, department) = move(data);
-// }
-
 Employee::~Employee() {
-    for (auto project : projects)
-        delete project;
     cout << "Zostalem usuniety jako pracownik" << endl;
 }
 
@@ -26,7 +16,7 @@ void Employee::show() const {
     cout << "Oddzial: " << department->getName() << " (ID: " << department->getDepartmentId() << ")" << endl;
     if (!projects.empty()) {
         cout << "Projekty: ";
-        for (const auto &project : projects)
+        for (const auto& project : projects)
             cout << project->getName() << " ";
         cout << endl;
     }
@@ -36,23 +26,24 @@ string Employee::generateSentence() const {
     return "Employee " + firstName + " " + Utils::capitalizeFirstLetter(lastName) + " has " + to_string(this->countProjects()) + " projects.";
 }
 
-Employee::Employee(const Employee &other) : Person(other), workedHours(other.workedHours), salaryPerHour(other.salaryPerHour), hasRaise(other.hasRaise), department(make_unique<Department>(*other.department)) {
+Employee::Employee(const Employee& other)
+    : Person(other),
+      workedHours(other.workedHours),
+      salaryPerHour(other.salaryPerHour),
+      hasRaise(other.hasRaise),
+      department(make_unique<Department>(*other.department)) {
     projects.reserve(other.projects.size());
     for (const auto &project : other.projects)
-        projects.emplace_back(project);
+        projects.emplace_back(make_shared<Project>(*project));
 }
 
 void Employee::addProject(Project &project) {
-    projects.push_back(&project);
+    projects.push_back(make_shared<Project>(project));
 }
 
 ProjectMatcher deleteIfEquals(const string &projectName) {
-    return [=](const Project *p) {
-        if (p && *p == projectName) {
-            delete p;
-            return true;
-        }
-        return false;
+    return [=](const Project* p) {
+        return p && *p == projectName;
     };
 }
 
@@ -61,7 +52,9 @@ void Employee::deleteProject(string projectName) {
         remove_if(
             projects.begin(),
             projects.end(),
-            deleteIfEquals(projectName)),
+            [&](const shared_ptr<Project>& p) {
+                return p->getName() == projectName;
+            }),
         projects.end());
 }
 
@@ -81,29 +74,30 @@ void Employee::presentEmployee() {
          << " has " << age << " years old and works in department " << department->getName() << endl;
 }
 
-Employee &Employee::operator=(const Employee &other) {
+Employee& Employee::operator=(const Employee& other) {
     if (this == &other)
         return *this;
-    for (auto &project : projects) delete project;
-    projects.clear();
 
     Person::operator=(other);
     workedHours = other.workedHours;
     salaryPerHour = other.salaryPerHour;
     hasRaise = other.hasRaise;
     department = make_unique<Department>(*other.department);
+    projects.clear();
     projects.reserve(other.projects.size());
-    for (const auto &project : other.projects)
-        projects.push_back(new Project(*project));
+    for (const auto& project : other.projects) {
+        projects.emplace_back(make_shared<Project>(*project));
+    }
     return *this;
 }
 
-Project* Employee::operator[](int index) {
-    if(index > projects.size()) {
-        cout << "Index poza zasiegiem" << endl; 
-        return projects[0];
+shared_ptr<Project> Employee::operator[](int index) {
+    if (index >= 0 && index < projects.size()) {
+        return projects[index];
+    } else {
+        cout << "Index poza zasiegiem" << endl;
+        return nullptr;
     }
-    return projects[index];
 }
 
 ostream &operator<<(ostream &os, const Employee &employee) {
