@@ -77,7 +77,7 @@ public:
     shared_ptr<Project> operator[](int index);
     friend ostream &operator<<(ostream &os, const Employee &employee);
     friend istream &operator>>(istream &is, Employee &employee);
-    void addProject(Project& project);
+    void addProject(shared_ptr<Project> project);
     void deleteProject(string projectName);
     void presentEmployee();
     double calculateSalary() const;

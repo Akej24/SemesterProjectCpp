@@ -6,6 +6,7 @@
 #include <tuple>
 #include "Person.hpp"
 #include "Employee.hpp"
+#include <memory>
 
 using namespace std;    
 
@@ -25,7 +26,7 @@ public:
     Boss& operator=(const Boss& other);
     friend ostream& operator<<(ostream& os, const Boss& employee);
     friend istream& operator>>(istream& is, Boss& employee);
-    void giveRaise(Employee *employee);
+    void giveRaise(shared_ptr<Employee> employee);
     string getTitle() const { return title; }
 };
 

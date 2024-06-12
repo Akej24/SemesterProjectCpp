@@ -37,5 +37,5 @@ void BossService::giveRaise(vector<shared_ptr<Person>> &people) {
     if (employeeIndex == -1)
         return;
     
-    dynamic_pointer_cast<Boss>(people[bossIndex]).get()->giveRaise(dynamic_pointer_cast<Employee>(people[employeeIndex]).get());
+    dynamic_pointer_cast<Boss>(people[bossIndex]).get()->giveRaise(dynamic_pointer_cast<Employee>(people[employeeIndex]));
 }

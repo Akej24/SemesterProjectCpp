@@ -22,7 +22,7 @@ string Boss::generateSentence() const {
     return "Boss " + firstName + " " + Utils::capitalizeFirstLetter(lastName) + " has title " + title;
 }
 
-void Boss::giveRaise(Employee *employee) {
+void Boss::giveRaise(shared_ptr<Employee> employee) {
     employee->setRaise(true);
 }
 

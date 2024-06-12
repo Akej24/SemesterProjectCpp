@@ -3,9 +3,8 @@
 void EmployeeService::createEmployee(vector<shared_ptr<Person>> &people, int id, bool withProject) {
     int age, workedHours;
     double salaryPerHour;
-    string name, firstName, lastName, departmentName, projectName, projectDescription;
+    string name, firstName, lastName, departmentName;
     Address* address;
-    Project* newProject;
 
     cout << "Podaj imie: ";
     cin >> firstName;
@@ -24,12 +23,13 @@ void EmployeeService::createEmployee(vector<shared_ptr<Person>> &people, int id,
     unique_ptr<Department> department = make_unique<Department>(departmentName, (int)people.size());
 
     if (withProject) {
+        shared_ptr<Project> newProject;
         cin >> newProject;
-        vector<shared_ptr<Project>> projects = { make_shared<Project>(*newProject) };
+        auto projects = { newProject };
         people.push_back(make_shared<Employee>(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, move(department), projects));
     } else {
         vector<shared_ptr<Project>> projects;
-        people.push_back(make_shared<Employee>(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, move(department), projects));
+        people.push_back(make_shared<Employee>(id, name, age, firstName, lastName, workedHours, salaryPerHour, address, move(department)));
     }
 }
 
@@ -53,8 +53,7 @@ void EmployeeService::addProjectToEmployee(const vector<shared_ptr<Person>> &peo
     cin >> projectDescription;
 
     auto employee = dynamic_pointer_cast<Employee>(people[personIndex]);
-    Project *newProject = new Project{projectName, employee.get()->countProjects() + 1, projectDescription};
-    employee.get()->addProject(*newProject);
+    employee.get()->addProject(make_shared<Project>(projectName, employee.get()->countProjects() + 1, projectDescription));
 }
 
 void EmployeeService::deleteEmployeeProject(const vector<shared_ptr<Person>> &people) {
@@ -98,7 +97,7 @@ void EmployeeService::cloneEmployee(vector<shared_ptr<Person>> &people) {
     if (personIndex == -1)
         return;
     auto employee = dynamic_pointer_cast<Employee>(people[personIndex]);
-    people.push_back(make_shared<Employee>(*employee));
+    people.push_back(employee);
 }
 
 void EmployeeService::addLanguageToEmployee(const vector<shared_ptr<Person>> &people) {

@@ -37,8 +37,8 @@ Employee::Employee(const Employee& other)
         projects.emplace_back(make_shared<Project>(*project));
 }
 
-void Employee::addProject(Project &project) {
-    projects.push_back(make_shared<Project>(project));
+void Employee::addProject(shared_ptr<Project> project) {
+    projects.push_back(project);
 }
 
 ProjectMatcher deleteIfEquals(const string &projectName) {

@@ -4,6 +4,7 @@
 #include <functional>
 #include <string>
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -20,7 +21,7 @@ public:
     int getProjectId() const { return projectId; }
     string getDescription() const { return description; }
     bool operator==(const string &projectName) const;
-    friend istream &operator>>(istream &is, Project *&project);
+    friend istream &operator>>(istream &is, shared_ptr<Project> &project);
 };
 
 #endif

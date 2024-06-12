@@ -8,7 +8,7 @@ bool Project::operator==(const string &projectName) const {
     return this->name == projectName;
 }
 
-istream &operator>>(istream &is, Project *&project) {
+istream &operator>>(istream &is, shared_ptr<Project> &project) {
     string projectName, projectDescription;
     cout << "Podaj projekt: " << endl;
     cout << "a) Nazwa: ";
@@ -16,6 +16,6 @@ istream &operator>>(istream &is, Project *&project) {
     cout << "b) Opis: ";
     is >> projectDescription;
 
-    project = new Project(projectName, 1, projectDescription);
+    project = make_shared<Project>(projectName, 1, projectDescription);
     return is;
 }
