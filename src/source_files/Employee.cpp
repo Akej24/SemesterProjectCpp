@@ -1,5 +1,18 @@
 #include "../header_files/Employee.hpp"
 
+Employee::Employee(const EmployeeInitializationData& data)
+    : Person(get<0>(data), get<1>(data), get<2>(data), get<3>(data), get<4>(data), get<7>(data)),
+    workedHours(get<5>(data)),
+    salaryPerHour(get<6>(data)),
+    department(get<8>(data)) {}
+
+Employee::Employee(const EmployeeInitializationDataWithProject& data)
+    : Person(get<0>(data), get<1>(data), get<2>(data), get<3>(data), get<4>(data), get<7>(data)),
+    workedHours(get<5>(data)),
+    salaryPerHour(get<6>(data)),
+    department(get<8>(data)),
+    projects(get<9>(data)) {}
+
 Employee::~Employee() {
     cout << "Zostalem usuniety jako pracownik" << endl;
 }
@@ -31,7 +44,7 @@ Employee::Employee(const Employee& other)
       workedHours(other.workedHours),
       salaryPerHour(other.salaryPerHour),
       hasRaise(other.hasRaise),
-      department(make_unique<Department>(*other.department)) {
+      department(make_shared<Department>(*other.department)) {
     projects.reserve(other.projects.size());
     for (const auto &project : other.projects)
         projects.emplace_back(make_shared<Project>(*project));
@@ -80,7 +93,7 @@ Employee& Employee::operator=(const Employee& other) {
     workedHours = other.workedHours;
     salaryPerHour = other.salaryPerHour;
     hasRaise = other.hasRaise;
-    department = make_unique<Department>(*other.department);
+    department = make_shared<Department>(*other.department);
     projects.clear();
     projects.reserve(other.projects.size());
     for (const auto& project : other.projects) {

@@ -10,16 +10,14 @@
 
 using namespace std;    
 
-//using BossInitializationData = tuple<int, string, int, string, string, string, Address *>;
+using BossInitializationData = tuple<int, string, int, string, string, string, shared_ptr<Address>>;
 
 class Boss final : public Person {
 private:
     string title;
     
 public:
-    //Boss(BossInitializationData initializationData);
-    Boss(int id, const string& name, int age, const string& firstName, const string& lastName, shared_ptr<Address> address, const string& title)
-        : Person(id, name, age, firstName, lastName, address), title(title) {}
+    Boss(const BossInitializationData& data);
     ~Boss();
     void show() const final override;
     string generateSentence() const final override;

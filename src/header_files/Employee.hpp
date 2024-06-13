@@ -16,8 +16,8 @@
 
 using namespace std;
 
-// using EmployeeInitializationDataWithProject = tuple<int, string, int, string, string, int, double, Address *, unique_ptr<Department>, vector<Project *>>;
-// using EmployeeInitializationData = tuple<int, string, int, string, string, int, double, Address *, unique_ptr<Department>>;
+using EmployeeInitializationDataWithProject = tuple<int, string, int, string, string, int, double, shared_ptr<Address>, shared_ptr<Department>, vector<shared_ptr<Project>>>;
+using EmployeeInitializationData = tuple<int, string, int, string, string, int, double, shared_ptr<Address>, shared_ptr<Department>>;
 using ProjectMatcher = function<bool(const shared_ptr<Project>)>;
 
 class Employee final : public Person {
@@ -25,35 +25,12 @@ private:
     int workedHours;
     double salaryPerHour;
     bool hasRaise = false;
-    unique_ptr<Department> department;
+    shared_ptr<Department> department;
     vector<shared_ptr<Project>> projects;
 
 public:
-    Employee(
-        int id, 
-        const string& name, 
-        int age, 
-        const string& firstName,
-        const string& lastName, 
-        int workedHours,
-        double salaryPerHour, 
-        shared_ptr<Address> address, 
-        unique_ptr<Department> department)
-        : Person(id, name, age, firstName, lastName, address), workedHours(workedHours), salaryPerHour(salaryPerHour), department(move(department)) {}
-
-    Employee(
-        int id, 
-        const string& name, 
-        int age, 
-        const string& firstName, 
-        const string& lastName, 
-        int workedHours, 
-        double salaryPerHour, 
-        shared_ptr<Address> address, 
-        unique_ptr<Department> department, 
-        vector<shared_ptr<Project>> projects)
-        : Person(id, name, age, firstName, lastName, address), workedHours(workedHours), salaryPerHour(salaryPerHour), department(move(department)), projects(projects) {}
-    
+    Employee(const EmployeeInitializationData& data);
+    Employee(const EmployeeInitializationDataWithProject& data);
     ~Employee();
     Employee(const Employee &other);
 
