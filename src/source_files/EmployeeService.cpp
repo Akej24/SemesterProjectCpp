@@ -133,5 +133,5 @@ void EmployeeService::showEmployeeLanguages(const vector<shared_ptr<Person>> &pe
         return;
     auto employee = dynamic_pointer_cast<Employee>(people[personIndex]);
 
-    employee.get()->programmingLanguages.showLanguagesAlphabetic();
+    employee.get()->programmingLanguages.showLanguages();
 }

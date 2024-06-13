@@ -36,15 +36,14 @@ public:
 
     class KnownProgrammingLanguages {
     private:
-        set<string> languages;
+        set<string, function<bool(const string&, const string&)>> languages;
 
     public:
-        explicit KnownProgrammingLanguages() {}
+        explicit KnownProgrammingLanguages() : languages([](const string& a, const string& b) { return a < b; }) {}
         void addLanguage(const string &language);
         void removeLanguage(const string &language);
-        void showLanguagesAlphabetic() const;
+        void showLanguages() const;
         bool containsString(const string &str) const;
-        bool operator()(const string &a, const string &b) const;
     };
 
     KnownProgrammingLanguages programmingLanguages;

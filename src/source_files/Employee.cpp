@@ -137,25 +137,12 @@ void Employee::KnownProgrammingLanguages::removeLanguage(const string &language)
     languages.erase(language);
 }
 
-struct AlphabeticLanguagesComparator {
-    bool operator()(const string& a, const string& b) const {
-        return a < b;
-    }
-};
-
-void Employee::KnownProgrammingLanguages::showLanguagesAlphabetic() const {
-    vector<string> languagesVector(languages.begin(), languages.end());
-    sort(languagesVector.begin(), languagesVector.end(), AlphabeticLanguagesComparator());
-    
+void Employee::KnownProgrammingLanguages::showLanguages() const {
     cout << "Znane jezyki programowania alfabetycznie: ";
-    copy(languagesVector.begin(), languagesVector.end(), ostream_iterator<string>(cout, " "));
+    copy(languages.begin(), languages.end(), ostream_iterator<string>(cout, " "));
     cout << endl;
 }
 
 bool Employee::KnownProgrammingLanguages::containsString(const string &str) const {
     return find(languages.begin(), languages.end(), str) != languages.end();
-}
-
-bool Employee::KnownProgrammingLanguages::operator()(const string &a, const string &b) const {
-    return a.length() > b.length();
 }
