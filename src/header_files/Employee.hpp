@@ -18,7 +18,7 @@ using namespace std;
 
 // using EmployeeInitializationDataWithProject = tuple<int, string, int, string, string, int, double, Address *, unique_ptr<Department>, vector<Project *>>;
 // using EmployeeInitializationData = tuple<int, string, int, string, string, int, double, Address *, unique_ptr<Department>>;
-using ProjectMatcher = function<bool(const Project *)>;
+using ProjectMatcher = function<bool(const shared_ptr<Project>)>;
 
 class Employee final : public Person {
 private:

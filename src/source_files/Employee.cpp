@@ -41,8 +41,8 @@ void Employee::addProject(shared_ptr<Project> project) {
     projects.push_back(project);
 }
 
-ProjectMatcher deleteIfEquals(const string &projectName) {
-    return [=](const Project* p) {
+ProjectMatcher ifEquals(const string &projectName) {
+    return [=](const shared_ptr<Project> p) {
         return p && *p == projectName;
     };
 }
@@ -52,9 +52,7 @@ void Employee::deleteProject(string projectName) {
         remove_if(
             projects.begin(),
             projects.end(),
-            [&](const shared_ptr<Project>& p) {
-                return p->getName() == projectName;
-            }),
+            ifEquals(projectName)),
         projects.end());
 }
 
