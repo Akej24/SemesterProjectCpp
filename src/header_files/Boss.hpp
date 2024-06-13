@@ -18,7 +18,7 @@ private:
     
 public:
     //Boss(BossInitializationData initializationData);
-    Boss(int id, const string& name, int age, const string& firstName, const string& lastName, Address *address, const string& title)
+    Boss(int id, const string& name, int age, const string& firstName, const string& lastName, shared_ptr<Address> address, const string& title)
         : Person(id, name, age, firstName, lastName, address), title(title) {}
     ~Boss();
     void show() const final override;

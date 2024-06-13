@@ -19,7 +19,7 @@ protected:
     shared_ptr<Address> address;
 
 public:
-    Person(int id, const string& name, int age, const string& firstName, const string& lastName, Address* address)
+    Person(int id, const string& name, int age, const string& firstName, const string& lastName, shared_ptr<Address> address)
         : id(id), name(name), age(age), firstName(firstName), lastName(lastName), address(address) {}
 
 

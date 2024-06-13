@@ -4,7 +4,7 @@ void EmployeeService::createEmployee(vector<shared_ptr<Person>> &people, int id,
     int age, workedHours;
     double salaryPerHour;
     string name, firstName, lastName, departmentName;
-    Address* address;
+    shared_ptr<Address> address;
 
     cout << "Podaj imie: ";
     cin >> firstName;

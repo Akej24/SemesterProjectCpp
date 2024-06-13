@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include <memory>
 
 using namespace std;
 
@@ -18,7 +19,7 @@ public:
     string getCity() const { return city; }
     string getStreetAddress() const { return streetAddress; }
     string getPostalCode() const { return postalCode; }
-    friend istream &operator>>(istream &is, Address *&address);
+    friend istream &operator>>(istream &is, shared_ptr<Address>& address);
 };
 
 #endif

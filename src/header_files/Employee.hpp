@@ -37,7 +37,7 @@ public:
         const string& lastName, 
         int workedHours,
         double salaryPerHour, 
-        Address *address, 
+        shared_ptr<Address> address, 
         unique_ptr<Department> department)
         : Person(id, name, age, firstName, lastName, address), workedHours(workedHours), salaryPerHour(salaryPerHour), department(move(department)) {}
 
@@ -49,7 +49,7 @@ public:
         const string& lastName, 
         int workedHours, 
         double salaryPerHour, 
-        Address *address, 
+        shared_ptr<Address> address, 
         unique_ptr<Department> department, 
         vector<shared_ptr<Project>> projects)
         : Person(id, name, age, firstName, lastName, address), workedHours(workedHours), salaryPerHour(salaryPerHour), department(move(department)), projects(projects) {}

@@ -3,17 +3,17 @@
 void ExampleCompany::example() {
     array<Employee, 3> employees { 
         Employee(1, "John Doe", 30, "John", "Doe", 159, 22.84, 
-            new Address("Address1", "City1", "12-123"), 
+            make_shared<Address>("Address1", "City1", "12-123"), 
             make_unique<Department>("Department1", 1), 
             {make_shared<Project>("TestProject1", 1, "TestOpis1")}),
 
         Employee(2, "Jane Smith", 25, "Jane", "Smith", 150, 19.43, 
-            new Address("Address2", "City2", "12-123"), 
+            make_shared<Address>("Address2", "City2", "12-123"), 
             make_unique<Department>("Department2", 2),
             {make_shared<Project>("TestProject2", 2, "TestOpis2")}),
 
         Employee(3, "Alice Johnson", 35, "Alice", "Johnson", 168, 28.43, 
-            new Address("Address3", "City3", "12-123"), 
+            make_shared<Address>("Address3", "City3", "12-123"), 
             make_unique<Department>("Department3", 3),
             {make_shared<Project>("TestProject3", 3, "TestOpis3")}),
     };

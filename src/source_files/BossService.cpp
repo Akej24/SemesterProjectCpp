@@ -3,7 +3,7 @@
 void BossService::createBoss(vector<shared_ptr<Person>> &people, int id) {
     int age;
     string name, firstName, lastName, street_address, city, postal_code, title;
-    Address* address;
+    shared_ptr<Address> address;
 
     cout << "Podaj imie: ";
     cin >> firstName;

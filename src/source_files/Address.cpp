@@ -4,7 +4,7 @@ Address::~Address() {
     cout << "Adres zostal usuniety" << endl; 
 }
 
-istream &operator>>(istream &is, Address *&address) {
+istream &operator>>(istream &is, shared_ptr<Address> &address) {
     string streetAddress, city, postalCode;
     cout << "Podaj adres:\n";
     cout << "a) Ulica: ";
@@ -14,6 +14,6 @@ istream &operator>>(istream &is, Address *&address) {
     cout << "c) Kod pocztowy: ";
     is >> postalCode;
 
-    address = new Address(streetAddress, city, postalCode);
+    address = make_shared<Address>(streetAddress, city, postalCode);
     return is;
 }
